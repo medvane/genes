@@ -1,0 +1,30 @@
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Taxonomy:</b>
+  <%= @gene.taxonomy_id %>
+</p>
+
+<p>
+  <b>Symbol:</b>
+  <%= @gene.symbol %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @gene.name %>
+</p>
+
+<p>
+  <b>Chromosome:</b>
+  <%= @gene.chromosome %>
+</p>
+
+<p>
+  <b>Map location:</b>
+  <%= @gene.map_location %>
+</p>
+
+
+<%= link_to 'Edit', edit_gene_path(@gene) %> |
+<%= link_to 'Back', genes_path %>

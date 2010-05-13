@@ -1,0 +1,31 @@
+<h1>Listing genes</h1>
+
+<table>
+  <tr>
+    <th>Taxonomy</th>
+    <th>Symbol</th>
+    <th>Name</th>
+    <th>Chromosome</th>
+    <th>Map location</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @genes.each do |gene| %>
+  <tr>
+    <td><%= gene.taxonomy_id %></td>
+    <td><%= gene.symbol %></td>
+    <td><%= gene.name %></td>
+    <td><%= gene.chromosome %></td>
+    <td><%= gene.map_location %></td>
+    <td><%= link_to 'Show', gene %></td>
+    <td><%= link_to 'Edit', edit_gene_path(gene) %></td>
+    <td><%= link_to 'Destroy', gene, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Gene', new_gene_path %>
