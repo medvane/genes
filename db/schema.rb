@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100513135245) do
+ActiveRecord::Schema.define(:version => 20100513140142) do
 
   create_table "genes", :force => true do |t|
     t.integer "taxonomy_id"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(:version => 20100513135245) do
   end
 
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
+
+  create_table "published_genes", :force => true do |t|
+    t.integer "article_id"
+    t.integer "gene_id"
+  end
+
+  add_index "published_genes", ["article_id"], :name => "index_published_genes_on_article_id"
 
   create_table "taxonomies", :force => true do |t|
     t.string "scientific_name"
