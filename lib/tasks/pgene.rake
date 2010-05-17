@@ -4,7 +4,7 @@ namespace :pgene do
   namespace :update do
     desc "update Taxonomy, Gene, PublishedGene"
     task :all => :environment do
-      ['taxonomy', 'gene', 'published_gene'].each do |task|
+      ['taxonomy', 'gene', 'published_gene', 'homologene'].each do |task|
         Rake::Task["pgene:update:#{task}"].invoke
       end
     end
@@ -57,6 +57,23 @@ namespace :pgene do
       end
       load_data(tmpfile)
       progress("updated PublishedGene")
+    end
+
+    desc "update Homologene"
+    task :homologene => :environment do
+      tmpfile = tempfile("homologenes.dat")
+      File.open(tmpfile, "w") do |file|
+        progress("downloading homologene.data")
+        open("ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data") do |f|
+          progress("writing #{tmpfile}")
+          f.each_line do |line|
+            homologene_id, tax_id, gene_id, symbol, gi, locus_version = line.strip.split(/\t/)
+            file.write("#{f.lineno}\t#{homologene_id}\t#{gene_id}\n")
+          end
+        end
+      end
+      load_data(tmpfile)
+      progress("updated Homologene")
     end
   end
 

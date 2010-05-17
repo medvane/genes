@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100513140142) do
+ActiveRecord::Schema.define(:version => 20100517033838) do
 
   create_table "genes", :force => true do |t|
     t.integer "taxonomy_id"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(:version => 20100513140142) do
 
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
 
+  create_table "homologenes", :force => true do |t|
+    t.integer "homolog_id"
+    t.integer "gene_id"
+  end
+
+  add_index "homologenes", ["gene_id"], :name => "index_homologenes_on_gene_id"
+  add_index "homologenes", ["homolog_id"], :name => "index_homologenes_on_homolog_id"
+
   create_table "published_genes", :force => true do |t|
     t.integer "article_id"
     t.integer "gene_id"
@@ -28,8 +36,31 @@ ActiveRecord::Schema.define(:version => 20100513140142) do
 
   add_index "published_genes", ["article_id"], :name => "index_published_genes_on_article_id"
 
+  create_table "reviewed_genes", :force => true do |t|
+    t.integer "review_id"
+    t.integer "gene_id"
+    t.integer "articles_count",  :default => 0
+    t.text    "article_id_list"
+  end
+
+  add_index "reviewed_genes", ["gene_id", "articles_count"], :name => "index_reviewed_genes_on_gene_id_and_articles_count"
+  add_index "reviewed_genes", ["review_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_articles_count"
+  add_index "reviewed_genes", ["review_id", "gene_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_gene_id_and_articles_count"
+
+  create_table "reviews", :force => true do |t|
+    t.string   "search_term"
+    t.string   "title"
+    t.integer  "search_results_count", :default => 0
+    t.integer  "genes_count",          :default => 0
+    t.integer  "articles_count",       :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "taxonomies", :force => true do |t|
     t.string "scientific_name"
   end
+
+  add_index "taxonomies", ["scientific_name"], :name => "index_taxonomies_on_scientific_name"
 
 end

@@ -1,0 +1,31 @@
+<h1><%= @review.title %></h1>
+
+<ul>
+  <li>PubMed Search: <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> (<%= pluralize(number_with_delimiter(@review.search_results_count), "result") %> on <%= @review.created_at.to_date %>)</li>
+  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %></li>
+</ul>
+
+<%= pagination() %>
+
+<table>
+  <tr>
+    <th>No</th>
+    <th>Gene</th>
+    <th>Chromosome</th>
+    <th>Map Location</th>
+    <th>Articles</th>
+    <th>Articles on Homologs</th>
+  </tr>
+<% @reviewed_genes.each do |rg| %>
+  <tr>
+    <td><%= @reviewed_genes.index(rg) + @offset + 1 %></td>
+    <td><%= link_to(rg.gene.to_s, gene_path(rg.gene), :class => "gene", :title => rg.gene.name) %></td>
+    <td><%= rg.gene.chromosome %></td>
+    <td class="nowrap"><%= rg.gene.map_location %></td>
+    <td class="nowrap"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %><% if ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) > 0 %> + <%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %><% end %></td>
+    <td><%= ReviewedGene.homologs(@review, rg.gene).includes(:gene => :taxonomy).map {|h| link_to(h.gene.to_s + ": #{h.articles_count}", gene_path(h.gene), :class => "gene", :title => h.gene.name)}.join(", ").html_safe %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= pagination() %>

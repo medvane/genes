@@ -1,0 +1,24 @@
+<%= form_for(@review) do |f| %>
+  <% if @review.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+    <ul>
+    <% @review.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :search_term, "PubMed Search Term" %><br />
+    <%= f.text_field :search_term %>
+  </div>
+  <div class="field">
+    <%= f.label :title, "Review Title" %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create your review", :disable_with => "reading articles in PubMed ..." %>
+  </div>
+<% end %>

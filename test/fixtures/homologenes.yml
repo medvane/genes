@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  homolog_id: 1
+  gene_id: 1
+
+two:
+  homolog_id: 1
+  gene_id: 1

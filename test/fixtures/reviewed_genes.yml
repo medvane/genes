@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  review_id: 1
+  gene_id: 1
+  articles_count: 1
+  article_id_list: MyText
+
+two:
+  review_id: 1
+  gene_id: 1
+  articles_count: 1
+  article_id_list: MyText
