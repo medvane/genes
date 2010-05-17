@@ -11,9 +11,9 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: pgene_development
+  database: rtreview_development
   pool: 5
-  username: pgene
+  username: rtreview
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -37,15 +37,15 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: pgene_test
+  database: rtreview_test
   pool: 5
-  username: pgene
+  username: rtreview
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: pgene_production
+  database: rtreview_production
   pool: 5
-  username: pgene
+  username: rtreview
   password:
