@@ -54,3 +54,11 @@ ul#navigation {
 .number {
   text-align: right;
 }
+
+.new_review {
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border: 1px solid #333;
+  background-color: #ddd;
+  display: inline-block;
+}
