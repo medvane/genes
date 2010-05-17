@@ -11,12 +11,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :search_term, "PubMed Search Term" %><br />
-    <%= f.text_field :search_term %>
-  </div>
-  <div class="field">
     <%= f.label :title, "Review Title" %><br />
     <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :search_term, "PubMed Search Term" %><br />
+    <%= f.text_field :search_term %>
   </div>
   <div class="actions">
     <%= f.submit "Create your review", :disable_with => "reading articles in PubMed ..." %>
