@@ -1,6 +1,7 @@
 <h1>Real-Time Review on Genes</h1>
 <%= render 'form' %>
 
+<% if @reviews.size > 0 %>
 <table>
   <tr>
     <th>Title</th>
@@ -19,3 +20,4 @@
   </tr>
 <% end %>
 </table>
+<% end %>
