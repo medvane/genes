@@ -20,8 +20,8 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(params[:review])
-    webenv, count = Pgene::Eutils.esearch(@review.search_term)
-    pmid = Pgene::Eutils.efetch(webenv)
+    webenv, count = Rtreview::Eutils.esearch(@review.search_term)
+    pmid = Rtreview::Eutils.efetch(webenv)
     @review.search_results_count = count
     pg = PublishedGene.where(:article_id => pmid)
     @review.articles_count = pg.map {|p| p.article_id}.uniq.count

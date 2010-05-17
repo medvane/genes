@@ -1,4 +1,4 @@
-Pgene::Application.routes.draw do |map|
+Rtreview::Application.routes.draw do |map|
   resources :reviews
   resources :genes
 

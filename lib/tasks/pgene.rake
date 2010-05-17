@@ -1,11 +1,11 @@
 require 'zlib'
 require 'open-uri'
-namespace :pgene do
+namespace :rtreview do
   namespace :update do
     desc "update Taxonomy, Gene, PublishedGene"
     task :all => :environment do
       ['taxonomy', 'gene', 'published_gene', 'homologene'].each do |task|
-        Rake::Task["pgene:update:#{task}"].invoke
+        Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
 
