@@ -79,6 +79,4 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
     t.string "scientific_name"
   end
 
-  add_index "taxonomies", ["scientific_name"], :name => "index_taxonomies_on_scientific_name"
-
 end
