@@ -10,6 +10,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'delayed_job'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

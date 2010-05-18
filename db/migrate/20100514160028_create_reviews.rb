@@ -6,8 +6,12 @@ class CreateReviews < ActiveRecord::Migration
       t.integer :search_results_count, :default => 0
       t.integer :genes_count, :default => 0
       t.integer :articles_count, :default => 0
+      t.integer :hits, :default => 0
+      t.boolean :built, :default => false
+      t.datetime :built_at
       t.timestamps
     end
+    add_index :reviews, [:built, :hits]
   end
 
   def self.down

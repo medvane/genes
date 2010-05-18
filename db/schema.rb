@@ -9,7 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100517033838) do
+ActiveRecord::Schema.define(:version => 20100518041727) do
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "genes", :force => true do |t|
     t.integer "taxonomy_id"
@@ -53,9 +66,14 @@ ActiveRecord::Schema.define(:version => 20100517033838) do
     t.integer  "search_results_count", :default => 0
     t.integer  "genes_count",          :default => 0
     t.integer  "articles_count",       :default => 0
+    t.integer  "hits",                 :default => 0
+    t.boolean  "built",                :default => false
+    t.datetime "built_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "reviews", ["built", "hits"], :name => "index_reviews_on_built_and_hits"
 
   create_table "taxonomies", :force => true do |t|
     t.string "scientific_name"

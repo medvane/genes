@@ -1,23 +1,5 @@
 <h1>Real-Time Review on Genes</h1>
 <%= render 'form' %>
 
-<% if @reviews.size > 0 %>
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Genes</th>
-    <th>Articles</th>
-    <th>PubMed Results</th>
-    <th>Created on</th>
-  </tr>
-<% @reviews.each do |review| %>
-  <tr>
-    <td><%= link_to(review.title, review_path(review)) %></td>
-    <td class="number"><%= number_with_delimiter(review.genes_count) %></td>
-    <td class="number"><%= number_with_delimiter(review.articles_count) %></td>
-    <td class="number"><%= number_with_delimiter(review.search_results_count) %></td>
-    <td><%= review.created_at.to_date %></td>
-  </tr>
-<% end %>
-</table>
-<% end %>
+<%= review_list(Review.built.limit(10), "Recent Reviews")%>
+<%= review_list(Review.popular.limit(10), "Popular Reviews")%>

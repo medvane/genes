@@ -1,5 +1,5 @@
 <h1><%= @review.title %></h1>
-
+<% if @review.built? %>
 <ul>
   <li>PubMed Search: <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> (<%= pluralize(number_with_delimiter(@review.search_results_count), "result") %> on <%= @review.created_at.to_date %>)</li>
   <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %></li>
@@ -29,3 +29,8 @@
 </table>
 
 <%= pagination() %>
+
+<% else %>
+Looking for genes in <%= pluralize(number_with_delimiter(@review.search_results_count), "article") %> for <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> PubMed search.
+Please reload or come back to this page.
+<% end %>
