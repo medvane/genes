@@ -31,6 +31,14 @@
 <%= pagination() %>
 
 <% else %>
-Looking for genes in <%= pluralize(number_with_delimiter(@review.search_results_count), "article") %> for <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> PubMed search.
-Please reload or come back to this page.
+<h2>Please reload or come back to this page a little bit later.</h2>
+<ul>
+  <% if @review.search_results_count == 0 %>
+  <li>We will run PubMed search <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %>  and import them for analysis soon.</li>
+  <% else %>
+  <li>Looking for genes in <%= pluralize(number_with_delimiter(@review.search_results_count), "article") %> for <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> PubMed search.</li>
+  <% end %>
+  <li>This review has been in the writing from for <%= time_ago_in_words(@review.created_at, true) %>.</li>
+  <li><%= pluralize(Review.inprocess.count, "review")%> waiting in the writing room.</li>
+</ul>
 <% end %>

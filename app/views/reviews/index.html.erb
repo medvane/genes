@@ -3,3 +3,4 @@
 
 <%= review_list(Review.built.limit(10), "Recent Reviews")%>
 <%= review_list(Review.popular.limit(10), "Popular Reviews")%>
+<%= review_list(Review.inprocess, "In-process Reviews")%>

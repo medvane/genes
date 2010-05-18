@@ -21,12 +21,10 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(params[:review])
-    webenv, count = Rtreview::Eutils.esearch(@review.search_term)
-    @review.search_results_count = count
     
     respond_to do |format|
       if @review.save
-        Delayed::Job.enqueue(CreateReview.new(@review.id, webenv))
+        Delayed::Job.enqueue(CreateReview.new(@review.id))
         format.html { redirect_to(@review, :notice => 'Review was successfully created.') }
         format.xml  { render :xml => @review, :status => :created, :location => @review }
       else

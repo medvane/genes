@@ -4,6 +4,7 @@ class Review < ActiveRecord::Base
 
   scope :built, where(:built => true).order("id desc")
   scope :popular, built.order("hits desc")
+  scope :inprocess, where(:built => false)
 
   def hit!
     increment!(:hits)
