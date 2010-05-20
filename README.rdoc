@@ -4,7 +4,7 @@
 
  $ git clone git://github.com/seouri/rtreview.git
  $ cd rtreview
- $ copy config/database.yml.mysql config/database.yml
+ $ cp config/database.yml.mysql config/database.yml
  $ rake rtreview:setup
  
 == Update Base Data
