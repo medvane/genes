@@ -1,1 +1,12 @@
-== Real-Time Review on Genes
+= Real-Time Review on Genes
+
+== Set Up
+
+ $ git clone git://github.com/seouri/rtreview.git
+ $ cd rtreview
+ $ copy config/database.yml.mysql config/database.yml
+ $ rake rtreview:setup
+ 
+== Update Base Data
+
+ $ rake rtreview:update:all

@@ -1,6 +1,13 @@
 require 'zlib'
 require 'open-uri'
 namespace :rtreview do
+  desc "Create database, load the schema, and initialize with data"
+  task :setup => :environment do
+    Rake::Task["db:create"].invoke
+    Rake::Task["db:schema:load"].invoke
+    Rake::Task["rtreview:update:all"].invoke
+  end
+
   namespace :update do
     desc "update Taxonomy, Gene, PublishedGene"
     task :all => :environment do
