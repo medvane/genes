@@ -30,8 +30,10 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
     t.string  "name"
     t.string  "chromosome"
     t.string  "map_location"
+    t.integer "articles_count", :default => 0
   end
 
+  add_index "genes", ["articles_count"], :name => "index_genes_on_articles_count"
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
 
   create_table "homologenes", :force => true do |t|
@@ -48,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   end
 
   add_index "published_genes", ["article_id"], :name => "index_published_genes_on_article_id"
+  add_index "published_genes", ["gene_id"], :name => "index_published_genes_on_gene_id"
 
   create_table "reviewed_genes", :force => true do |t|
     t.integer "review_id"

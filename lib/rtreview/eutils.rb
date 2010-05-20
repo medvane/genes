@@ -25,7 +25,7 @@ module Rtreview::Eutils
   end
   module_function :esearch
 
-  def efetch(webenv, retstart = 0, retmax = 100000, rettype = "uilist")
+  def efetch(webenv, retstart = 0, retmax = 1000000, rettype = "uilist")
     server = EUTILS_URL + "efetch.fcgi"
     params = {
       "db"          => "pubmed",

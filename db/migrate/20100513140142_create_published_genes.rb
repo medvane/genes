@@ -5,6 +5,7 @@ class CreatePublishedGenes < ActiveRecord::Migration
       t.integer :gene_id
     end
     add_index :published_genes, :article_id
+    add_index :published_genes, :gene_id
   end
 
   def self.down

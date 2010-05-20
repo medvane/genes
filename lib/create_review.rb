@@ -11,7 +11,13 @@ class CreateReview < Struct.new(:review_id)
       pmid = Rtreview::Eutils.efetch(webenv)
       review.search_results_count = count
     end
-    pg = PublishedGene.where(:article_id => pmid)
+    pg = []
+    0.step(count - 1, 100000) do |start_idx|
+      end_idx = start_idx + 100000
+      end_idx = count - 1 if end_idx > count - 1
+      pg_step = PublishedGene.where(:article_id => pmid[start_idx, end_idx])
+      pg = pg.concat(pg_step)
+    end
     pgg = pg.group_by(&:gene_id)
     
     pgg.sort {|a, b| pgg[b[0]].size <=> pgg[a[0]].size}.each do |g|

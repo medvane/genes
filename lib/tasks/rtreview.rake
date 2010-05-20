@@ -4,7 +4,7 @@ namespace :rtreview do
   namespace :update do
     desc "update Taxonomy, Gene, PublishedGene"
     task :all => :environment do
-      ['taxonomy', 'gene', 'published_gene', 'homologene'].each do |task|
+      ['taxonomy', 'published_gene', 'gene', 'homologene'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -30,13 +30,23 @@ namespace :rtreview do
     desc "update Gene"
     task :gene => :environment do
       tmpfile = tempfile("genes.dat")
+      countfile = tempfile("gene_articles_count.txt")
+      count = {}
+      File.open(countfile, "r") do |file|
+        progress("reading #{countfile}")
+        file.each_line do |line|
+          gene_id, articles_count = line.strip.split(/\t/)
+          count[gene_id] = articles_count
+        end
+      end
       File.open(tmpfile, "w") do |file|
         progress("downloading gene_info.gz")
         gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz")
         progress("writing #{tmpfile}")
         gz.each_line do |line|
           taxonomy_id, gene_id, symbol, locusTag, synonyms, dbXrefs, chromosome, map_location, description, type_of_gene, symbol_from_nomenclature_authority, full_name_from_nomenclature_authority, nomenclature_status, other_designations, modification_date = line.split(/\t/)
-          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\n") if gz.lineno > 1
+          articles_count = count[gene_id] || 0
+          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\n") if gz.lineno > 1
         end
       end
       load_data(tmpfile)
@@ -46,16 +56,28 @@ namespace :rtreview do
     desc "update PublishedGene"
     task :published_gene => :environment do
       tmpfile = tempfile("published_genes.dat")
+      countfile = tempfile("gene_articles_count.txt")
+      count = {}
       File.open(tmpfile, "w") do |file|
         progress("downloading gene2pubmed.gz")
         gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene2pubmed.gz")
         progress("writing #{tmpfile}")
         gz.each_line do |line|
           tax_id, gene_id, article_id = line.strip.split(/\t/)
-          file.write("#{gz.lineno}\t#{article_id}\t#{gene_id}\n") if gz.lineno > 1
+          if gz.lineno > 1
+            file.write("#{gz.lineno}\t#{article_id}\t#{gene_id}\n")
+            count[gene_id] ||= 0
+            count[gene_id] += 1
+          end
         end
       end
       load_data(tmpfile)
+      File.open(countfile, "w") do |file|
+        progress("writing #{countfile}")
+        count.keys.each do |gene_id|
+          file.write("#{gene_id}\t#{count[gene_id]}\n")
+        end
+      end
       progress("updated PublishedGene")
     end
 

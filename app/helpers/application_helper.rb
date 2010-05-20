@@ -6,7 +6,7 @@ module ApplicationHelper
     pagination = []
     pagination.push(link_to("Beginning", pagination_params(nil))) if @offset > 0
     pagination.push(link_to("Previous #{@per_page}", pagination_params(prev_offset))) if @offset > @per_page
-    pagination.push(link_to("Next #{@per_page}", pagination_params(next_offset))) if next_offset < @last_item
+    pagination.push(link_to("Next #{@per_page}", pagination_params(next_offset))) if @last_item.nil? or next_offset < @last_item
     content_tag(:div, pagination.join("\n").html_safe, :class => "pagination")
   end
 

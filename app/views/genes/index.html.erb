@@ -1,21 +1,25 @@
 <h1>Genes</h1>
 
+<%= pagination() %>
+
 <table>
   <tr>
-    <th>Taxonomy</th>
+    <th>No</th>
+    <th>Species</th>
     <th>Symbol</th>
     <th>Name</th>
-    <th>Chromosome</th>
-    <th>Map location</th>
+    <th>Articles</th>
   </tr>
 
 <% @genes.each do |gene| %>
   <tr>
-    <td><%= gene.taxonomy.scientific_name %></td>
-    <td><%= gene.symbol %></td>
-    <td><%= gene.name %></td>
-    <td><%= gene.chromosome %></td>
-    <td><%= gene.map_location %></td>
+    <td class="number"><%= @genes.index(gene) + @offset + 1 %></td>
+    <td class="nowrap"><%= gene.taxonomy.scientific_name %></td>
+    <td><%= link_to(gene.symbol, gene_path(gene)) %></td>
+    <td><%= link_to(gene.name, gene_path(gene)) %></td>
+    <td class="number"><%= link_to(number_with_delimiter(gene.articles_count), "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{gene.id}", :target => "_blank") %></td>
   </tr>
 <% end %>
 </table>
+
+<%= pagination() %>
