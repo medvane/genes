@@ -11,10 +11,11 @@
   <tr>
     <th>No</th>
     <th>Gene</th>
-    <th>Chromosome</th>
+    <th>Chr</th>
     <th>Map Location</th>
     <th>Articles</th>
-    <th>Articles on Homologs</th>
+    <th colspan="2">Articles on Homologs</th>
+    <th>Specificity<%= help("(number of articles in this review) / (total number of articles in PubMed) x 100")%></th>
   </tr>
 <% @reviewed_genes.each do |rg| %>
   <tr>
@@ -22,8 +23,10 @@
     <td><%= link_to(rg.gene.to_s, gene_path(rg.gene), :class => "gene", :title => rg.gene.name) %></td>
     <td><%= rg.gene.chromosome %></td>
     <td class="nowrap"><%= rg.gene.map_location %></td>
-    <td class="nowrap"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %><% if ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) > 0 %> + <%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %><% end %></td>
+    <td class="nowrap number"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %></td>
+    <td class="number"><% if ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) > 0 %><%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %><% end %></td>
     <td><%= ReviewedGene.homologs(@review, rg.gene).includes(:gene => :taxonomy).map {|h| link_to(h.gene.to_s + ": #{h.articles_count}", gene_path(h.gene), :class => "gene", :title => h.gene.name)}.join(", ").html_safe %></td>
+    <td class="number"><%= sprintf("%.1f", rg.articles_count.to_f / rg.gene.articles_count.to_f * 100) %>%</td>
   </tr>
 <% end %>
 </table>

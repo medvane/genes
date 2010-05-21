@@ -15,4 +15,8 @@ module ApplicationHelper
     p[:q] = params[:q] if params[:q].present?
     return p
   end
+
+  def help(text)
+    content_tag(:span, "[?]", :title => text, :class => "help")
+  end
 end
