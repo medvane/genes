@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("a[title]").tooltip({ effect: 'fade'});
+  $("a[title]").tooltip({ effect: 'fade', delay: 0 });
   $("span.help[title]").tooltip({ effect: 'fade'});
   $("#review_title").keyup(function() {
     var value = $(this).val();
