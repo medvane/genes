@@ -8,6 +8,12 @@ namespace :rtreview do
     Rake::Task["rtreview:update:all"].invoke
   end
 
+  desc "recreate database, load the schema, and initialize with data"
+  task :reset => :environment do
+    Rake::Task["db:drop"].invoke
+    Rake::Task["rtreview:setup"].invoke
+  end
+
   namespace :update do
     desc "update Taxonomy, Gene, PublishedGene"
     task :all => :environment do
