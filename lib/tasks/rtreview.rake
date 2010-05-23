@@ -43,7 +43,7 @@ namespace :rtreview do
         progress("reading #{countfile}")
         file.each_line do |line|
           gene_id, articles_count = line.strip.split(/\t/)
-          count[gene_id] = articles_count
+          count[gene_id] = articles_count.to_i
         end
       end
       File.open(tmpfile, "w") do |file|
@@ -53,7 +53,7 @@ namespace :rtreview do
         gz.each_line do |line|
           taxonomy_id, gene_id, symbol, locusTag, synonyms, dbXrefs, chromosome, map_location, description, type_of_gene, symbol_from_nomenclature_authority, full_name_from_nomenclature_authority, nomenclature_status, other_designations, modification_date = line.split(/\t/)
           articles_count = count[gene_id] || 0
-          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\n") if gz.lineno > 1
+          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\n") if articles_count > 0 and gz.lineno > 1
         end
       end
       load_data(tmpfile)
