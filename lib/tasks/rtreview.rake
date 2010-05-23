@@ -15,7 +15,7 @@ namespace :rtreview do
   end
 
   namespace :update do
-    desc "update Taxonomy, Gene, PublishedGene"
+    desc "update Taxonomy, PublishedGene, Gene, Homologene"
     task :all => :environment do
       ['taxonomy', 'published_gene', 'gene', 'homologene'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
