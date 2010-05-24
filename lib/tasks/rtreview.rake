@@ -107,14 +107,35 @@ namespace :rtreview do
 
     desc "update Homologene"
     task :homologene => :environment do
+      countfile = tempfile("gene_articles_count.txt")
+      count = {}
+      File.open(countfile, "r") do |file|
+        progress("reading #{countfile}")
+        file.each_line do |line|
+          gene_id, articles_count = line.strip.split(/\t/)
+          count[gene_id] = articles_count.to_i
+        end
+      end
+      progress("downloading homologene.data")
+      homolog = {}
+      open("ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data") do |f|
+        f.each_line do |line|
+          homologene_id, tax_id, gene_id, symbol, gi, locus_version = line.strip.split(/\t/)
+          homolog[homologene_id] ||= []
+          homolog[homologene_id].push(gene_id) if count[gene_id]
+        end
+      end
+      progress("#{homolog.size} homologenes")
       tmpfile = tempfile("homologenes.dat")
+      lineno = 0
       File.open(tmpfile, "w") do |file|
-        progress("downloading homologene.data")
-        open("ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data") do |f|
-          progress("writing #{tmpfile}")
-          f.each_line do |line|
-            homologene_id, tax_id, gene_id, symbol, gi, locus_version = line.strip.split(/\t/)
-            file.write("#{f.lineno}\t#{homologene_id}\t#{gene_id}\n")
+        progress("writing #{tmpfile}")
+        homolog.values.each do |genes|
+          genes.each do |g|
+            genes.reject {|h| h == g}.each do |h|
+              lineno += 1
+              file.write("#{lineno}\t#{g}\t#{h}\n")
+            end
           end
         end
       end
@@ -137,6 +158,7 @@ namespace :rtreview do
     file_size = File.size(file)
     if file_size > 0
       progress("loading #{file_size} byte data into #{table_name}")
+      execute("ALTER TABLE #{quoted_table_name} ENGINE = MyISAM")
       execute("TRUNCATE TABLE #{quoted_table_name}")
       execute("ALTER TABLE #{quoted_table_name} DISABLE KEYS")
       execute("LOAD DATA LOCAL INFILE '#{file}' INTO TABLE #{quoted_table_name}")
