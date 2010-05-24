@@ -52,6 +52,16 @@ namespace :rtreview do
           count[gene_id] = articles_count.to_i
         end
       end
+      position = {}
+      progress("downloading gene2refseq.gz")
+      gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene2refseq.gz")
+      progress("reading gene2refseq")
+      gz.each_line do |line|
+        tax_id, gene_id, status, rna_accession, rna_gi, protein_accession, protein_gi, genomic_accession, genomic_gi, start_position, end_position, orientation, assembly = line.strip.split(/\t/)
+        if count[gene_id] and !position[gene_id]
+          position[gene_id] = "#{start_position}\t#{end_position}"
+        end
+      end
       File.open(tmpfile, "w") do |file|
         progress("downloading gene_info.gz")
         gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz")
@@ -59,7 +69,8 @@ namespace :rtreview do
         gz.each_line do |line|
           taxonomy_id, gene_id, symbol, locusTag, synonyms, dbXrefs, chromosome, map_location, description, type_of_gene, symbol_from_nomenclature_authority, full_name_from_nomenclature_authority, nomenclature_status, other_designations, modification_date = line.split(/\t/)
           articles_count = count[gene_id] || 0
-          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\n") if articles_count > 0 and gz.lineno > 1
+          pos = position[gene_id] || "\t"
+          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\t#{pos}\n") if articles_count > 0 and gz.lineno > 1
         end
       end
       load_data(tmpfile)
