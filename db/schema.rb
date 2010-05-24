@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   create_table "reviewed_genes", :force => true do |t|
     t.integer "review_id"
     t.integer "gene_id"
+    t.integer "taxonomy_id"
+    t.string  "chromosome"
     t.integer "articles_count",  :default => 0
     t.text    "article_id_list"
   end
@@ -64,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   add_index "reviewed_genes", ["gene_id", "articles_count"], :name => "index_reviewed_genes_on_gene_id_and_articles_count"
   add_index "reviewed_genes", ["review_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_articles_count"
   add_index "reviewed_genes", ["review_id", "gene_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_gene_id_and_articles_count"
+  add_index "reviewed_genes", ["review_id", "taxonomy_id", "chromosome", "articles_count"], :name => "index_reviewed_genes_on_review_taxonomy_chromosome"
 
   create_table "reviews", :force => true do |t|
     t.string   "search_term"

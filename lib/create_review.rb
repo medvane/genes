@@ -12,10 +12,10 @@ class CreateReview < Struct.new(:review_id)
       review.search_results_count = count
     end
     pg = []
-    0.step(count - 1, 100000) do |start_idx|
-      end_idx = start_idx + 100000
+    0.step(count - 1, 50000) do |start_idx|
+      end_idx = start_idx + 50000
       end_idx = count - 1 if end_idx > count - 1
-      pg_step = PublishedGene.where(:article_id => pmid[start_idx, end_idx])
+      pg_step = PublishedGene.where(:article_id => pmid[start_idx, end_idx]).includes(:gene)
       pg = pg.concat(pg_step)
     end
     pgg = pg.group_by(&:gene_id)
@@ -23,6 +23,8 @@ class CreateReview < Struct.new(:review_id)
     pgg.sort {|a, b| pgg[b[0]].size <=> pgg[a[0]].size}.each do |g|
       rg = review.reviewed_genes.new
       rg.gene_id = g[0]
+      rg.taxonomy_id = g[1][0].gene.taxonomy_id
+      rg.chromosome = g[1][0].gene.chromosome
       rg.articles_count = g[1].size
       rg.article_id_list = g[1].map {|a| a.article_id}
       rg.save!

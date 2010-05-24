@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
-    @reviewed_genes = @review.reviewed_genes.limit(@per_page).offset(@offset)
+    @reviewed_genes = @review.reviewed_genes.limit(@per_page).offset(@offset).includes(:gene => [:taxonomy, :homologene])
     @last_item = @review.genes_count
     @review.hit! if @review.built?
   end

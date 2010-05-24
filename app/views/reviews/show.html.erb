@@ -2,7 +2,13 @@
 <% if @review.built? %>
 <ul>
   <li>PubMed Search: <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> (<%= pluralize(number_with_delimiter(@review.search_results_count), "result") %> on <%= @review.created_at.to_date %>)</li>
-  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %></li>
+  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %>
+    <ul>
+    <% @review.reviewed_genes.joins(:taxonomy).group("taxonomies.scientific_name").order("count_gene_id desc").count(:gene_id).each do |species, genes| %>
+      <li><%= species %>: <%= pluralize(genes, "gene") %></li>
+    <% end %>
+    </ul>    
+  </li>
 </ul>
 
 <%= pagination() %>
