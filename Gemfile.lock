@@ -15,7 +15,7 @@ dependencies:
   delayed_job: 
     group: 
     - :default
-    version: ">= 0"
+    version: = 2.1.0.pre
 specs: 
 - rake: 
     version: 0.8.7
@@ -68,7 +68,7 @@ specs:
 - daemons: 
     version: 1.0.10
 - delayed_job: 
-    version: 2.0.3
+    version: 2.1.0.pre
 - mysql: 
     version: 2.8.1
 - pg: 
@@ -79,7 +79,7 @@ specs:
     version: 3.0.0.beta3
 - rails: 
     version: 3.0.0.beta3
-hash: 970e77cefca38daf69598e7dc15df6ddb72e4eb2
+hash: 80c097a38e4201f6740dc291c507b6b86e14c73a
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
