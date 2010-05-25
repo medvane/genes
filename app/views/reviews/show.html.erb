@@ -5,7 +5,7 @@
   <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %>
     <ul>
     <% @review.reviewed_genes.joins(:taxonomy).group("taxonomies.scientific_name").order("count_gene_id desc").count(:gene_id).each do |species, genes| %>
-      <li><%= species %>: <%= pluralize(genes, "gene") %></li>
+      <li><%= species %>: <%= pluralize(number_with_delimiter(genes), "gene") %></li>
     <% end %>
     </ul>    
   </li>

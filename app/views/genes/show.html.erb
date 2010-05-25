@@ -3,14 +3,14 @@
   <li>Name: <%= @gene.name %> (<%= link_to("Entrez Gene record", "http://www.ncbi.nlm.nih.gov/gene/" + @gene.id.to_s, :target => "_blank")%>)</li>
   <li>Chromosome: <%= @gene.chromosome %></li>
   <li>Map location: <%= @gene.map_location %></li>
-  <li><%= link_to(pluralize(@gene.articles_count, "article") + " in PubMed", "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{@gene.id}", :target => "_blank") %></li>
+  <li><%= link_to(pluralize(number_with_delimiter(@gene.articles_count), "article") + " in PubMed", "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{@gene.id}", :target => "_blank") %></li>
 </ul>
 
 <div id="reviews">
 <h2>Reviews</h2>
 <ul>
 <% for r in @gene.reviewed_genes %>
-  <li><%= link_to(r.review.title, review_path(r.review)) %> (<%= pluralize(r.articles_count, "article")%> / <%= pluralize(@gene.articles_count, "PubMed article") %>)</li>
+  <li><%= link_to(r.review.title, review_path(r.review)) %> (<%= pluralize(r.articles_count, "article")%> / <%= pluralize(number_with_delimiter(@gene.articles_count), "PubMed article") %>)</li>
 <% end %>
 </ul>
 </div>
