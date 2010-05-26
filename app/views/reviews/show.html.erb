@@ -2,12 +2,23 @@
 <% if @review.built? %>
 <ul>
   <li>PubMed Search: <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> (<%= pluralize(number_with_delimiter(@review.search_results_count), "result") %> on <%= @review.created_at.to_date %>)</li>
-  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %>
-    <ul>
-    <% @review.reviewed_genes.joins(:taxonomy).group("taxonomies.scientific_name").order("count_gene_id desc").count(:gene_id).each do |species, genes| %>
-      <li><%= species %>: <%= pluralize(number_with_delimiter(genes), "gene") %></li>
+  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %> <%= content_tag("span", "Genes by Species", :id => "toggle_genes_by_species", :class => "button")%>
+
+    <ul id="genes_by_species" style="display:none">
+    <% @review.reviewed_genes.group(:taxonomy_id).order("count_gene_id desc").count(:gene_id).each do |taxonomy_id, genes| %>
+      <li><%= Taxonomy.find(taxonomy_id).scientific_name %>: <%= pluralize(number_with_delimiter(genes), "gene") %>
+        <% if taxonomy_id == 9606 %>
+        <%= content_tag("span", "Genes by Chromosome", :id => "toggle_genes_by_chromosome", :class => "button")%>
+          <% chr = @review.reviewed_genes.where(:taxonomy_id => 9606).joins(:taxonomy).group("chromosome").count(:gene_id) %>
+        <ul id="genes_by_chromosome" style="display: none">
+          <% chr.keys.sort_by {|k| [k.to_i, k]}.map {|k| [k, chr[k]]}.each do |s| %>
+          <li>chr<%= s[0] %>: <%= s[1] %></li>
+          <% end %>
+        </ul>
+        <% end %>
+      </li>
     <% end %>
-    </ul>    
+    </ul>
   </li>
 </ul>
 
