@@ -39,12 +39,11 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
 
   create_table "homologenes", :force => true do |t|
-    t.integer "homolog_id"
     t.integer "gene_id"
+    t.integer "homolog_id"
   end
 
-  add_index "homologenes", ["gene_id"], :name => "index_homologenes_on_gene_id"
-  add_index "homologenes", ["homolog_id"], :name => "index_homologenes_on_homolog_id"
+  add_index "homologenes", ["gene_id", "homolog_id"], :name => "index_homologenes_on_gene_id_and_homolog_id"
 
   create_table "published_genes", :force => true do |t|
     t.integer "article_id"
