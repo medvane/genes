@@ -30,9 +30,9 @@
     <td><%= rg.gene.chromosome %></td>
     <td class="nowrap"><%= rg.gene.map_location %></td>
     <td class="nowrap number"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %></td>
-    <td class="number"><% if ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) > 0 %><%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %><% end %></td>
-    <td><%= ReviewedGene.homologs(@review, rg.gene).includes(:gene => :taxonomy).map {|h| link_to(h.gene.to_s + ": #{h.articles_count}", gene_path(h.gene), :class => "gene", :title => h.gene.name)}.join(", ").html_safe %></td>
-    <td class="number"><%= sprintf("%.1f", rg.articles_count.to_f / rg.gene.articles_count.to_f * 100) %>%</td>
+    <td class="number"><%= ReviewedGene.where(:review_id => @review.id).where(:gene_id => rg.gene.homologs.map {|h| h.id}).sum(:articles_count) %></td>
+    <td><%= rg.gene.homologs.map {|h| h.reviewed_genes.select {|r| r.review_id == @review.id}[0]}.compact.sort_by(&:articles_count).reverse.map{|r| link_to(r.gene.to_s + ": #{r.articles_count}", gene_path(r.gene), :class => "gene", :title => r.gene.name)}.join(", ").html_safe %></td>
+    <td class="number"><%= sprintf("%d", rg.articles_count.to_f / rg.gene.articles_count.to_f * 100) %>%</td>
   </tr>
 <% end %>
 </table>
