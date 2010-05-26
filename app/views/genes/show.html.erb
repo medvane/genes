@@ -6,6 +6,7 @@
   <li><%= link_to(pluralize(number_with_delimiter(@gene.articles_count), "article") + " in PubMed", "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{@gene.id}", :target => "_blank") %></li>
 </ul>
 
+<% if @gene.reviewed_genes.size > 0 %>
 <div id="reviews">
 <h2>Reviews</h2>
 <ul>
@@ -14,6 +15,7 @@
 <% end %>
 </ul>
 </div>
+<% end %>
 <% if @gene.homologs.size > 0 %>
 <div id="homologs">
   <h2>Homologs from <%= link_to("NCBI HomoloGene", "http://www.ncbi.nlm.nih.gov/homologene/#{@gene.homologene.homolog_id}", :target => "_blank")%></h2>
