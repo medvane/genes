@@ -26,6 +26,7 @@ class CreateReview < Struct.new(:review_id)
       rg.taxonomy_id = g[1][0].gene.taxonomy_id
       rg.chromosome = g[1][0].gene.chromosome
       rg.articles_count = g[1].size
+      rg.specificity = g[1].size.to_f / g[1][0].gene.articles_count.to_f * 100
       rg.article_id_list = g[1].map {|a| a.article_id}
       rg.save!
     end

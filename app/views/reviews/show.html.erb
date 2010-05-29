@@ -43,7 +43,7 @@
     <td class="nowrap number"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %></td>
     <td class="number"><%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %></td>
     <td><%= ReviewedGene.homologs(@review, rg.gene).map {|r| link_to(r.gene.to_s + ": #{r.articles_count}", gene_path(r.gene), :class => "gene", :title => r.gene.name)}.join(", ").html_safe %></td>
-    <td class="number"><%= sprintf("%d", rg.articles_count.to_f / rg.gene.articles_count.to_f * 100) %>%</td>
+    <td class="number"><%= sprintf("%d", rg.specificity) %>%</td>
   </tr>
 <% end %>
 </table>
