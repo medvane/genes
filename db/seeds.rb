@@ -1,4 +1,4 @@
-terms = ["Rett Syndrome", "Autistic Disorder", "Crohn Disease", "Alzheimer Disease", "Schizophrenia", "Asthma"]
+terms = ["Amyotrophic Lateral Sclerosis", "Alzheimer Disease", "Asthma", "Autistic Disorder", "Cancer/genetics", "Crohn Disease", "Glioblastoma", "Inflammatory Bowel Diseases", "Mental Disorders/genetics", "Multiple Sclerosis", "Systemic Lupus Erythematosus", "Autoimmunity"]
 terms.each do |term|
   review = Review.create!(:title => term, :search_term => "#{term}[majr]")
   Delayed::Job.enqueue(CreateReview.new(review.id))
