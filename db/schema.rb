@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   add_index "reviewed_genes", ["gene_id", "articles_count"], :name => "index_reviewed_genes_on_gene_id_and_articles_count"
   add_index "reviewed_genes", ["review_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_articles_count"
   add_index "reviewed_genes", ["review_id", "gene_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_gene_id_and_articles_count"
-  add_index "reviewed_genes", ["review_id", "specificity"], :name => "index_reviewed_genes_on_review_id_and_specificity"
+  add_index "reviewed_genes", ["review_id", "specificity", "articles_count"], :name => "index_reviewed_genes_on_review_specificity_articles_count"
   add_index "reviewed_genes", ["review_id", "taxonomy_id", "chromosome", "articles_count"], :name => "index_reviewed_genes_on_review_taxonomy_chromosome"
 
   create_table "reviews", :force => true do |t|
