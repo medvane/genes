@@ -13,6 +13,7 @@ module ApplicationHelper
   def pagination_params(offset)
     p = { :o => offset }
     p[:q] = params[:q] if params[:q].present?
+    p[:s] = params[:s] if params[:s].present?
     return p
   end
 

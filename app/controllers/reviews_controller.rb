@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+  before_filter :set_sort_params, :only => "show"
+
   def index
     @reviews = Review.where(:built => true)
     @review = Review.new
@@ -6,7 +8,7 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
-    @reviewed_genes = @review.reviewed_genes.limit(@per_page).offset(@offset).includes(:gene => :taxonomy)
+    @reviewed_genes = @review.reviewed_genes.limit(@per_page).offset(@offset).includes(:gene => :taxonomy).order(@sort_column)
     @last_item = @review.genes_count
     @review.hit! if @review.built?
   end
@@ -55,6 +57,15 @@ class ReviewsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(reviews_url) }
       format.xml  { head :ok }
+    end
+  end
+
+private
+  def set_sort_params
+    @sort_key = params[:s].present? ? params[:s] : "articles"
+    @sort_column = case @sort_key
+      when "articles" then "reviewed_genes.articles_count desc"
+      when "specificity" then "reviewed_genes.specificity desc"
     end
   end
 end

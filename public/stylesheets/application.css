@@ -75,6 +75,7 @@ h1 {
 
 th {
   background-color: #ccc;
+  white-space: nowrap;
 }
 
 tr:hover {
@@ -93,4 +94,18 @@ tr:hover {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+
+.sorted {
+  background-color: #eee;
+}
+
+th a, th a:visited {
+  color: #000;
+  text-decoration: none;
+  
+}
+
+th a:hover {
+  color: #fff;
 }
