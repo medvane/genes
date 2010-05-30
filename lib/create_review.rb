@@ -21,13 +21,14 @@ class CreateReview < Struct.new(:review_id)
     pgg = pg.group_by(&:gene_id)
     
     pgg.sort {|a, b| pgg[b[0]].size <=> pgg[a[0]].size}.each do |g|
+      gene = g[1][0].gene
       rg = review.reviewed_genes.new
       rg.gene_id = g[0]
-      rg.taxonomy_id = g[1][0].gene.taxonomy_id
-      rg.chromosome = g[1][0].gene.chromosome
-      rg.articles_count = g[1].size
-      rg.specificity = g[1].size.to_f / g[1][0].gene.articles_count.to_f * 100
-      rg.article_id_list = g[1].map {|a| a.article_id}
+      rg.taxonomy_id = gene.taxonomy_id
+      rg.chromosome = gene.chromosome
+      rg.article_id_list = g[1].map {|a| a.article_id}.uniq
+      rg.articles_count = rg.article_id_list.size
+      rg.specificity = rg.articles_count.to_f / gene.articles_count.to_f * 100
       rg.save!
     end
 
