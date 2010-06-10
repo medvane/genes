@@ -14,6 +14,7 @@ module ApplicationHelper
     p = { :o => offset }
     p[:q] = params[:q] if params[:q].present?
     p[:s] = params[:s] if params[:s].present?
+    p[:t] = params[:t] if params[:t].present?
     return p
   end
 
