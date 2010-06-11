@@ -36,7 +36,7 @@
   </tr>
 <% @reviewed_genes.each do |rg| %>
   <tr>
-    <td><%= @reviewed_genes.index(rg) + @offset + 1 %></td>
+    <td class="number"><%= number_with_delimiter(@reviewed_genes.index(rg) + @offset + 1) %></td>
     <td><%= link_to(rg.gene.to_s, gene_path(rg.gene), :class => "gene", :title => rg.gene.name) %></td>
     <td><%= rg.gene.chromosome %></td>
     <td class="nowrap"><%= rg.gene.map_location %></td>
