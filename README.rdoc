@@ -4,7 +4,7 @@
 
  $ git clone git://github.com/seouri/rtreview.git
  $ cd rtreview
- $ $ bundle install --without production
+ $ bundle install --without production
  $ cp config/database.yml.mysql config/database.yml
  $ rake rtreview:setup
  
