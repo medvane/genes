@@ -9,7 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100616200840) do
+ActiveRecord::Schema.define(:version => 20100616213949) do
+
+  create_table "article_subjects", :force => true do |t|
+    t.integer "article_id"
+    t.integer "subject_id"
+  end
+
+  add_index "article_subjects", ["article_id"], :name => "index_article_subjects_on_article_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
