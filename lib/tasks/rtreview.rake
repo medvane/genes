@@ -15,9 +15,9 @@ namespace :rtreview do
   end
 
   namespace :update do
-    desc "update Taxonomy, PublishedGene, Gene, Homologene"
+    desc "update Taxonomy, PublishedGene, Gene, Homologene, Subject"
     task :all => :environment do
-      ['taxonomy', 'published_gene', 'gene', 'homologene'].each do |task|
+      ['taxonomy', 'published_gene', 'gene', 'homologene', 'subject'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -143,8 +143,8 @@ namespace :rtreview do
       progress("updated Homologene")
     end
 
-    desc "update MeSH"
-    task :mesh => :environment do
+    desc "update Subject"
+    task :subject => :environment do
       tmpfile = tempfile("subjects.dat")
       year = Time.now.year
       open("ftp://nlmpubs.nlm.nih.gov/online/mesh/.asciimesh/d#{year}.bin") do |f|
