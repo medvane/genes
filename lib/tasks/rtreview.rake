@@ -142,6 +142,29 @@ namespace :rtreview do
       load_data(tmpfile)
       progress("updated Homologene")
     end
+
+    desc "update MeSH"
+    task :mesh => :environment do
+      tmpfile = tempfile("subjects.dat")
+      year = Time.now.year
+      open("ftp://nlmpubs.nlm.nih.gov/online/mesh/.asciimesh/d#{year}.bin") do |f|
+        progress("downloading d#{year}.bin")
+        id, term = nil, nil
+        File.open(tmpfile, "w") do |file|
+          f.each_line do |line|
+            tag, val = line.strip.split(/ = /, 2)
+            case tag
+              when "*NEWRECORD" then id, term = nil, nil
+              when "MH" then term = val
+              when "UI" then id = val.gsub(/^D0*/, "")
+              when nil then file.write("#{id}\t#{term}\n")
+            end
+          end
+        end
+      end
+      load_data(tmpfile)
+      progress("updated Subject")
+    end
   end
 
   def download_gz(url)

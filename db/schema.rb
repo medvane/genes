@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100518041727) do
+ActiveRecord::Schema.define(:version => 20100616200840) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -83,6 +83,12 @@ ActiveRecord::Schema.define(:version => 20100518041727) do
   end
 
   add_index "reviews", ["built", "hits"], :name => "index_reviews_on_built_and_hits"
+
+  create_table "subjects", :force => true do |t|
+    t.string "term"
+  end
+
+  add_index "subjects", ["term"], :name => "index_subjects_on_term"
 
   create_table "taxonomies", :force => true do |t|
     t.string "scientific_name"

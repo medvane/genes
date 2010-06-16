@@ -1,6 +1,7 @@
 Rtreview::Application.routes.draw do |map|
   resources :reviews
   resources :genes
+  resources :subjects
 
   root :to => "reviews#index"
   # The priority is based upon order of creation:
