@@ -81,7 +81,9 @@ namespace :rtreview do
     task :published_gene => :environment do
       tmpfile = tempfile("published_genes.dat")
       countfile = tempfile("gene_articles_count.txt")
+      articleidfile = tempfile("article_ids.txt")
       count = {}
+      article_ids = {}
       File.open(tmpfile, "w") do |file|
         progress("downloading gene2pubmed.gz")
         gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene2pubmed.gz")
@@ -92,6 +94,7 @@ namespace :rtreview do
             file.write("#{gz.lineno}\t#{article_id}\t#{gene_id}\n")
             count[gene_id] ||= 0
             count[gene_id] += 1
+            article_ids[article_id] ||= 1
           end
         end
       end
@@ -100,6 +103,12 @@ namespace :rtreview do
         progress("writing #{countfile}")
         count.keys.each do |gene_id|
           file.write("#{gene_id}\t#{count[gene_id]}\n")
+        end
+      end
+      File.open(articleidfile, "w") do |file|
+        progress("writing #{articleidfile}")
+        article_ids.keys.each do |article_id|
+          file.write("#{article_id}\n")
         end
       end
       progress("updated PublishedGene")
