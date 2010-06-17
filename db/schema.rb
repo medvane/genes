@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100616213949) do
+ActiveRecord::Schema.define(:version => 20100617143236) do
 
   create_table "article_subjects", :force => true do |t|
     t.integer "article_id"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(:version => 20100616213949) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "gene_subjects", :force => true do |t|
+    t.integer "gene_id"
+    t.integer "subject_id"
+    t.integer "articles_count"
+  end
+
+  add_index "gene_subjects", ["gene_id", "articles_count"], :name => "index_gene_subjects_on_gene_id_and_articles_count"
+  add_index "gene_subjects", ["subject_id", "articles_count"], :name => "index_gene_subjects_on_subject_id_and_articles_count"
 
   create_table "genes", :force => true do |t|
     t.integer "taxonomy_id"
