@@ -16,9 +16,9 @@ namespace :rtreview do
   end
 
   namespace :update do
-    desc "update Taxonomy, PublishedGene, Gene, Homologene, Subject, ArticleSubject"
+    desc "update PublishedGene, Gene, Taxonomy, Homologene, Subject, ArticleSubject"
     task :all => :environment do
-      ['taxonomy', 'published_gene', 'gene', 'homologene', 'subject', 'article_subject'].each do |task|
+      ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -26,6 +26,14 @@ namespace :rtreview do
     desc "update Taxonomy"
     task :taxonomy => :environment do
       tmpfile = tempfile("taxonomies.dat")
+      taxfile = tempfile("taxonomy_genes_count.txt")
+      genes_count = {}
+      File.open(taxfile, "r") do |file|
+        file.each_line do |line|
+          tax_id, genes = line.strip.split(/\t/)
+          genes_count[tax_id] = genes
+        end
+      end
       File.open(tmpfile, "w") do |file|
         progress("downloading taxdump.tar.gz")
         gz = download_gz("ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz")
@@ -33,7 +41,7 @@ namespace :rtreview do
         gz.each_line do |line|
           tax_id, name_txt, unique_name, name_class  = line.split(/\s*\|\s*/)
           if name_class == 'scientific name'
-            file.write("#{tax_id}\t#{name_txt}\n")
+            file.write("#{tax_id}\t#{name_txt}\t#{genes_count[tax_id]}\n") if genes_count[tax_id].present?
           end
         end
       end
@@ -46,6 +54,8 @@ namespace :rtreview do
       tmpfile = tempfile("genes.dat")
       countfile = tempfile("gene_articles_count.txt")
       count = {}
+      taxfile = tempfile("taxonomy_genes_count.txt")
+      tax_ids = {}
       File.open(countfile, "r") do |file|
         progress("reading #{countfile}")
         file.each_line do |line|
@@ -71,10 +81,20 @@ namespace :rtreview do
           taxonomy_id, gene_id, symbol, locusTag, synonyms, dbXrefs, chromosome, map_location, description, type_of_gene, symbol_from_nomenclature_authority, full_name_from_nomenclature_authority, nomenclature_status, other_designations, modification_date = line.split(/\t/)
           articles_count = count[gene_id] || 0
           pos = position[gene_id] || "\t"
-          file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\t#{pos}\n") if articles_count > 0 and gz.lineno > 1
+          if articles_count > 0 and gz.lineno > 1
+            file.write("#{gene_id}\t#{taxonomy_id}\t#{symbol}\t#{description}\t#{chromosome}\t#{map_location}\t#{articles_count}\t#{pos}\n")
+            tax_ids[taxonomy_id] ||= 0
+            tax_ids[taxonomy_id] += 1
+          end
         end
       end
       load_data(tmpfile)
+      File.open(taxfile, "w") do |file|
+        progress("writing #{taxfile}")
+        tax_ids.keys.each do |tax_id|
+          file.write("#{tax_id}\t#{tax_ids[tax_id]}\n")
+        end
+      end
       progress("updated Gene")
     end
 

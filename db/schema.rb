@@ -107,7 +107,8 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
   add_index "subjects", ["term"], :name => "index_subjects_on_term"
 
   create_table "taxonomies", :force => true do |t|
-    t.string "scientific_name"
+    t.string  "scientific_name"
+    t.integer "genes_count",     :default => 0
   end
 
 end
