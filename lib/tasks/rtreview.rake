@@ -16,9 +16,9 @@ namespace :rtreview do
   end
 
   namespace :update do
-    desc "update PublishedGene, Gene, Taxonomy, Homologene, Subject, ArticleSubject"
+    desc "update PublishedGene, Gene, Taxonomy, Homologene, Subject, ArticleSubject, GeneSubject"
     task :all => :environment do
-      ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject'].each do |task|
+      ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject', 'gene_subject'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -228,6 +228,24 @@ namespace :rtreview do
               id += 1
               file.write("#{id}\t#{m.pmid}\t#{subject_id}\n")
             end
+          end
+        end
+      end
+      load_data(tmpfile)
+    end
+
+    desc "update GeneSubject"
+    task :gene_subject => :environment do
+      tmpfile = tempfile("gene_subjects.dat")
+      id = 0
+      File.open(tmpfile, "w") do |file|
+        progress("writing #{tmpfile}")
+        Gene.find_each do |gene|
+          pmids = gene.published_genes.map {|p| p.article_id}
+          as = ArticleSubject.where(:article_id => pmids).group_by(&:subject_id)
+          as.keys.map {|subject_id| [gene.id, subject_id, as[subject_id].size]}.sort {|a, b| b[2] <=> a[2]}.shift(20).each do |line|
+            id += 1
+            file.write("#{id}\t" + line.join("\t") + "\n")
           end
         end
       end
