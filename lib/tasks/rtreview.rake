@@ -1,5 +1,6 @@
 require 'zlib'
 require 'open-uri'
+require 'medline'
 namespace :rtreview do
   desc "Create database, load the schema, and initialize with data"
   task :setup => :environment do
@@ -15,9 +16,9 @@ namespace :rtreview do
   end
 
   namespace :update do
-    desc "update Taxonomy, PublishedGene, Gene, Homologene, Subject"
+    desc "update Taxonomy, PublishedGene, Gene, Homologene, Subject, ArticleSubject"
     task :all => :environment do
-      ['taxonomy', 'published_gene', 'gene', 'homologene', 'subject'].each do |task|
+      ['taxonomy', 'published_gene', 'gene', 'homologene', 'subject', 'article_subject'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -173,6 +174,44 @@ namespace :rtreview do
       end
       load_data(tmpfile)
       progress("updated Subject")
+    end
+
+    desc "update ArticleSubject"
+    task :article_subject => :environment do
+      tmpfile = tempfile("article_subjects.dat")
+      articleidfile = tempfile("article_ids.txt")
+      subjectsfile = tempfile("subjects.dat")
+      subject = {}
+      File.open(subjectsfile, "r") do |file|
+        progress("reading #{subjectsfile}")
+        file.each_line do |line|
+          id, term = line.strip.split(/\t/)
+          subject[term] = id
+        end
+      end
+      pmids = []
+      File.open(articleidfile, "r") do |file|
+        progress("reading #{articleidfile}")
+        file.each_line do |line|
+          pmids.push(line.strip)
+        end
+      end
+      id = 0
+      File.open(tmpfile, "w") do |file|
+        while (pmids.count > 0)
+          ids = pmids.shift(1000)
+          progress("downloading articles from PubMed #{pmids.count} left")
+          webenv = Rtreview::Eutils.epost(ids)
+          medline = Rtreview::Eutils.efetch(webenv, 0, 100000, "medline")
+          medline.each do |m|
+            m.major_descriptors.map {|t| subject[t]}.each do |subject_id|
+              id += 1
+              file.write("#{id}\t#{m.pmid}\t#{subject_id}\n")
+            end
+          end
+        end
+      end
+      load_data(tmpfile)
     end
   end
 

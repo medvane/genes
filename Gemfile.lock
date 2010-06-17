@@ -16,6 +16,10 @@ dependencies:
     group: 
     - :default
     version: = 2.1.0.pre
+  bio: 
+    group: 
+    - :default
+    version: ">= 0"
 specs: 
 - rake: 
     version: 0.8.7
@@ -34,7 +38,7 @@ specs:
 - rack: 
     version: 1.1.0
 - rack-mount: 
-    version: 0.6.3
+    version: 0.6.4
 - rack-test: 
     version: 0.5.4
 - tzinfo: 
@@ -48,7 +52,7 @@ specs:
 - treetop: 
     version: 1.4.8
 - mail: 
-    version: 2.2.3
+    version: 2.2.4
 - actionmailer: 
     version: 3.0.0.beta4
 - arel: 
@@ -57,6 +61,8 @@ specs:
     version: 3.0.0.beta4
 - activeresource: 
     version: 3.0.0.beta4
+- bio: 
+    version: 1.4.0
 - bundler: 
     version: 0.9.26
 - daemons: 
@@ -73,7 +79,7 @@ specs:
     version: 3.0.0.beta4
 - rails: 
     version: 3.0.0.beta4
-hash: 2fb8a23f2ecdd867def09de2b6bcc23b801630b7
+hash: 3b045a3d27da865cf0709b709024863bb453abf1
 sources: 
 - Rubygems: 
     uri: http://rubygems.org

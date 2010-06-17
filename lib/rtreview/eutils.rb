@@ -51,4 +51,19 @@ module Rtreview::Eutils
     return medline
   end
   module_function :efetch
+
+  def epost(ids)
+    server = EUTILS_URL + "epost.fcgi"
+    params = {
+      "db"          => "pubmed",
+      "id"          => ids.join(","),
+      "tool"        => TOOL_NAME,
+      "email"       => TOOL_EMAIL,
+    }
+    response = Net::HTTP.post_form(URI.parse(server), params)
+    result = response.body
+    webenv = result.scan(/<WebEnv>(.*?)<\/WebEnv>/m).flatten.first.to_s
+    return webenv
+  end
+  module_function :epost
 end
