@@ -23,11 +23,18 @@
 <% if @gene.reviewed_genes.size > 0 %>
 <div id="reviews">
 <h2>Reviews</h2>
-<ul>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Articles</th>
+  </tr>
 <% for r in @gene.reviewed_genes %>
-  <li><%= link_to(r.review.title, review_path(r.review)) %> (<%= pluralize(r.articles_count, "article")%> / <%= pluralize(number_with_delimiter(@gene.articles_count), "PubMed article") %>)</li>
+  <tr>
+    <td><%= link_to(r.review.title, review_path(r.review)) %></td>
+    <td class="number"><%= number_with_delimiter(r.articles_count)%></td>
+  </tr>
 <% end %>
-</ul>
+</table>
 </div>
 <% end %>
 <% if @gene.homologs.size > 0 %>
