@@ -4,7 +4,7 @@ class Gene < ActiveRecord::Base
   has_many :reviewed_genes, :order => "reviewed_genes.articles_count desc", :include => :review
   has_one :homologene
   has_many :homologs, :through => :homologene
-  has_many :gene_subjects
+  has_many :gene_subjects, :order => "gene_subjects.id"
 
   def to_s
     "#{symbol} (#{taxonomy.scientific_name})"

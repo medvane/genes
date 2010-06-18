@@ -5,7 +5,21 @@
   <li>Map location: <%= @gene.map_location %></li>
   <li><%= link_to(pluralize(number_with_delimiter(@gene.articles_count), "article") + " in PubMed", "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{@gene.id}", :target => "_blank") %></li>
 </ul>
-
+<div id="subjects">
+  <h2>Top Subjects</h2>
+  <table>
+    <tr>
+      <th>Subject</th>
+      <th>Articles</th>
+    </tr>
+    <% @gene.gene_subjects.each do |s| %>
+    <tr>
+      <td><%= s.subject.term %></td>
+      <td class="number"><%= number_with_delimiter(s.articles_count) %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
 <% if @gene.reviewed_genes.size > 0 %>
 <div id="reviews">
 <h2>Reviews</h2>
