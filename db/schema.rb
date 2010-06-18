@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
 
   add_index "genes", ["articles_count"], :name => "index_genes_on_articles_count"
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
+  add_index "genes", ["taxonomy_id", "articles_count"], :name => "index_genes_on_taxonomy_id_and_articles_count"
 
   create_table "homologenes", :force => true do |t|
     t.integer "gene_id"
@@ -110,5 +111,7 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
     t.string  "scientific_name"
     t.integer "genes_count",     :default => 0
   end
+
+  add_index "taxonomies", ["genes_count"], :name => "index_taxonomies_on_genes_count"
 
 end

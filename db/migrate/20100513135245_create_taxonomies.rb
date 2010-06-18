@@ -4,6 +4,7 @@ class CreateTaxonomies < ActiveRecord::Migration
       t.string :scientific_name
       t.integer :genes_count, :default => 0
     end
+    add_index :taxonomies, :genes_count
   end
 
   def self.down

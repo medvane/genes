@@ -12,6 +12,7 @@ class CreateGenes < ActiveRecord::Migration
     end
     add_index :genes, :symbol
     add_index :genes, :articles_count
+    add_index :genes, [:taxonomy_id, :articles_count]
   end
 
   def self.down
