@@ -11,3 +11,7 @@
 == Update Base Data
 
  $ rake rtreview:update:all
+
+== Run the Background Worker
+
+ $ rake jobs:work
