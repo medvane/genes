@@ -1,6 +1,11 @@
 <h1>Real-Time Review on Genes</h1>
 <%= render 'form' %>
-
-<%= review_list(Review.built.limit(10), "Recent Reviews")%>
-<%= review_list(Review.popular.limit(10), "Popular Reviews")%>
-<%= review_list(Review.inprocess, "In-process Reviews")%>
+</div>
+<div class="yui-g">
+  <div class="yui-u first">
+    <%= review_list(Review.built.limit(20), "Recent Reviews")%>
+    <%= review_list(Review.inprocess, "In-process Reviews")%>
+	</div>
+  <div class="yui-u">
+    <%= review_list(Review.popular.limit(20), "Popular Reviews")%>
+  </div>

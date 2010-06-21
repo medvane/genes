@@ -2,6 +2,7 @@ body {
   margin-top: 0;
 }
 #hd {
+  padding: 0.35em 0;
   background-color: #444;
   color: #fff;
 }
@@ -15,6 +16,7 @@ ul#navigation {
 }
 
 #navigation li {
+  padding: 0 0.5em;
   list-style: none;
   display: inline-block;
 }
@@ -34,8 +36,8 @@ ul#navigation {
 }
 
 .pagination {
-  margin: 1em 0;
-  padding: 0.25em 0.5em;
+  margin: 0.5em 0;
+  padding: 0.55em 0.5em;
   background-color: #ccc;
 }
 
@@ -70,7 +72,8 @@ ul#navigation {
 }
 
 h1 {
-  font-size: 197%;
+  font-size: 250%;
+  margin: 0.45em 0 0.2em 0;
 }
 
 th {
@@ -113,7 +116,7 @@ th a:hover {
 div#species_tab {
   margin: 1em 0;
   padding: 0;
-  height: 2.2em;
+  height: 2.7em;
   overflow: hidden;
 }
 #species_tab ul {
@@ -139,8 +142,7 @@ div#species_tab {
   text-decoration: none;
   display: block;
   margin: 0;
-  padding: 0.25em 0.5em;
-  xfont-size: 93%;
+  padding: 0.5em 0.5em;
 }
 #species_tab a:visited {
   color: #000;
@@ -157,4 +159,8 @@ div#species_tab {
 
 .hidden {
   display: none;
+}
+
+.review_list {
+  width: 100%;
 }

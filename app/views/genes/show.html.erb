@@ -40,10 +40,19 @@
 <% if @gene.homologs.size > 0 %>
 <div id="homologs">
   <h2>Homologs from <%= link_to("NCBI HomoloGene", "http://www.ncbi.nlm.nih.gov/homologene/#{@gene.homologene.homolog_id}", :target => "_blank")%></h2>
-  <ul>
+  <table>
+    <tr>
+      <th>Species</th>
+      <th>Gene</th>
+      <th>Reviews</th>
+    </tr>
 <% for h in @gene.homologs %>
-    <li><%= link_to(h.to_s, gene_path(h), :class => "gene", :title => h.name) %><% if h.reviewed_genes.size > 0 %> in <%= h.reviewed_genes.map {|hr| link_to(hr.review.title, review_path(hr.review)) + " (#{pluralize(hr.articles_count, "article")})"}.join(", ").html_safe %><% end %></li>
+    <tr>
+      <td><%= h.taxonomy.scientific_name %></td>
+      <td><%= link_to(h.symbol, gene_path(h), :title => h.name)%></td>
+      <td><% if h.reviewed_genes.size > 0 %><%= h.reviewed_genes.map {|hr| link_to(hr.review.title, review_path(hr.review)) + " (#{pluralize(hr.articles_count, "article")})"}.join("<br>\n").html_safe %><% end %></td>
+    </tr>
   <% end %>
-  </ul>
+  </table>
 </div>
 <% end %>
