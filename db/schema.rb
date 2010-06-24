@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
 
   create_table "subjects", :force => true do |t|
     t.string "term"
+    t.string "semantic_groups"
   end
 
   add_index "subjects", ["term"], :name => "index_subjects_on_term"

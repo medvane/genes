@@ -177,17 +177,20 @@ namespace :rtreview do
     task :subject => :environment do
       tmpfile = tempfile("subjects.dat")
       year = Time.now.year
+      sg = semantic_group()
       open("ftp://nlmpubs.nlm.nih.gov/online/mesh/.asciimesh/d#{year}.bin") do |f|
         progress("downloading d#{year}.bin")
         id, term = nil, nil
+        sgrp = []
         File.open(tmpfile, "w") do |file|
           f.each_line do |line|
             tag, val = line.strip.split(/ = /, 2)
             case tag
-              when "*NEWRECORD" then id, term = nil, nil
+              when "*NEWRECORD" then id, term = nil, nil; sgrp = []
               when "MH" then term = val
               when "UI" then id = val.gsub(/^D0*/, "")
-              when nil then file.write("#{id}\t#{term}\n")
+              when "ST" then sgrp.push(sg[val]) unless sg[val].nil?
+              when nil then file.write("#{id}\t#{term}\t#{sgrp.uniq.sort.join(" ")}\n")
             end
           end
         end
@@ -286,5 +289,16 @@ namespace :rtreview do
 
   def progress(message)
     puts "[#{Time.now.to_s}] #{message}"
+  end
+  
+  def semantic_group
+    sg = {}
+    open("http://semanticnetwork.nlm.nih.gov/SemGroups/SemGroups.txt") do |f|
+      f.each_line do |line|
+        short, full, tid, semtype = line.strip.split(/\|/)
+        sg[tid] = short
+      end
+    end
+    return sg
   end
 end
