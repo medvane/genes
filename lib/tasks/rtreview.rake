@@ -189,7 +189,7 @@ namespace :rtreview do
               when "*NEWRECORD" then id, term = nil, nil; sgrp = []
               when "MH" then term = val
               when "UI" then id = val.gsub(/^D0*/, "")
-              when "ST" then sgrp.push(sg[val]) unless sg[val].nil?
+              when "ST" then sgrp.push(sg[val]) unless sg[val].nil?; puts term if sg[val].nil?
               when nil then file.write("#{id}\t#{term}\t#{sgrp.uniq.sort.join(" ")}\n")
             end
           end
@@ -292,7 +292,7 @@ namespace :rtreview do
   end
   
   def semantic_group
-    sg = {}
+    sg = {"T003" => "LIVB", "T006" => "LIVB", "T009" => "LIVB"}
     open("http://semanticnetwork.nlm.nih.gov/SemGroups/SemGroups.txt") do |f|
       f.each_line do |line|
         short, full, tid, semtype = line.strip.split(/\|/)
