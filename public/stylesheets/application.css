@@ -168,6 +168,7 @@ div#species_tab {
 .semantic_group {
   margin: 0 0.25em;
   padding: 0.25em 0.5em;
+  width: 3em;
   font-size: 77%;
   color: #fff;
   background-color: #666;
@@ -176,6 +177,7 @@ div#species_tab {
   border-radius: 4px;
   float: right;
   display: inline-block;
+  text-align: center;
 }
 .ACTI {}
 .ANAT {background-color: #006}
