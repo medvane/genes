@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100617143236) do
+ActiveRecord::Schema.define(:version => 20100702221916) do
 
   create_table "article_subjects", :force => true do |t|
     t.integer "article_id"
@@ -17,6 +17,12 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
   end
 
   add_index "article_subjects", ["article_id"], :name => "index_article_subjects_on_article_id"
+
+  create_table "articles", :force => true do |t|
+    t.text   "title"
+    t.string "source"
+    t.date   "pubdate"
+  end
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -30,6 +36,13 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "gene_gos", :force => true do |t|
+    t.integer "gene_id"
+    t.integer "go_id"
+  end
+
+  add_index "gene_gos", ["gene_id"], :name => "index_gene_gos_on_gene_id"
 
   create_table "gene_subjects", :force => true do |t|
     t.integer "gene_id"
@@ -54,6 +67,11 @@ ActiveRecord::Schema.define(:version => 20100617143236) do
   add_index "genes", ["articles_count"], :name => "index_genes_on_articles_count"
   add_index "genes", ["symbol"], :name => "index_genes_on_symbol"
   add_index "genes", ["taxonomy_id", "articles_count"], :name => "index_genes_on_taxonomy_id_and_articles_count"
+
+  create_table "gos", :force => true do |t|
+    t.string "term"
+    t.string "category"
+  end
 
   create_table "homologenes", :force => true do |t|
     t.integer "gene_id"

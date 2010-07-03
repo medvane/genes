@@ -20,6 +20,25 @@
     <% end %>
   </table>
 </div>
+
+<% if @gene.gos.size > 0 %>
+<div id="gos">
+  <h2>GeneOntologies</h2>
+  <table>
+    <tr>
+      <th>Term</th>
+      <th>Category</th>
+    </tr>
+    <% @gene.gos.each do |go| %>
+    <tr>
+      <td><%= go.term %></td>
+      <td><%= go.category %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<% end %>
+
 <% if @gene.reviewed_genes.size > 0 %>
 <div id="reviews">
 <h2>Reviews</h2>

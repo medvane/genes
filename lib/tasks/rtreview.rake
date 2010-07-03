@@ -18,7 +18,7 @@ namespace :rtreview do
   namespace :update do
     desc "update PublishedGene, Gene, Taxonomy, Homologene, Subject, ArticleSubject, GeneSubject"
     task :all => :environment do
-      ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject', 'gene_subject'].each do |task|
+      ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject', 'gene_subject', 'go'].each do |task|
         Rake::Task["rtreview:update:#{task}"].invoke
       end
     end
@@ -199,10 +199,11 @@ namespace :rtreview do
       progress("updated Subject")
     end
 
-    desc "update ArticleSubject"
+    desc "update Article & ArticleSubject"
     task :article_subject => :environment do
       tmpfile = tempfile("article_subjects.dat")
       articleidfile = tempfile("article_ids.txt")
+      articlesfile = tempfile("articles.dat")
       subjectsfile = tempfile("subjects.dat")
       subject = {}
       File.open(subjectsfile, "r") do |file|
@@ -220,21 +221,25 @@ namespace :rtreview do
         end
       end
       id = 0
-      File.open(tmpfile, "w") do |file|
-        while (pmids.count > 0)
-          ids = pmids.shift(1000)
-          progress("downloading articles from PubMed #{pmids.count} left")
-          webenv = Rtreview::Eutils.epost(ids)
-          medline = Rtreview::Eutils.efetch(webenv, 0, 100000, "medline")
-          medline.each do |m|
-            m.major_descriptors.map {|t| subject[t]}.each do |subject_id|
-              id += 1
-              file.write("#{id}\t#{m.pmid}\t#{subject_id}\n")
+      File.open(articlesfile, "w") do |afile|
+        File.open(tmpfile, "w") do |file|
+          while (pmids.count > 0)
+            ids = pmids.shift(1000)
+            progress("downloading articles from PubMed #{pmids.count} left")
+            webenv = Rtreview::Eutils.epost(ids)
+            medline = Rtreview::Eutils.efetch(webenv, 0, 100000, "medline")
+            medline.each do |m|
+              m.major_descriptors.map {|t| subject[t]}.each do |subject_id|
+                id += 1
+                file.write("#{id}\t#{m.pmid}\t#{subject_id}\n")
+              end
+              afile.write("#{m.pmid}\t#{m.ti}\t#{m.source}\t#{m.pubdate}\n")
             end
           end
         end
       end
       load_data(tmpfile)
+      load_data(articlesfile)
     end
 
     desc "update GeneSubject"
@@ -253,6 +258,33 @@ namespace :rtreview do
         end
       end
       load_data(tmpfile)
+    end
+
+    desc "update Go, GeneGo"
+    task :go => :environment do
+      gofile = tempfile("gos.dat")
+      genegofile = tempfile("gene_gos.dat")
+      progress("downloading gene2go.gz")
+      gz = download_gz("ftp://ftp.ncbi.nih.gov/gene/DATA/gene2go.gz")
+      progress("writing #{gofile} & #{genegofile}")
+      File.open(gofile, "w") do |file|
+        File.open(genegofile, "w") do |gfile|
+          added_go = {}
+          gene_go_id = 1
+          gz.each_line do |line|
+            taxonomy_id, gene_id, go_id, evidence, qualifier, go_term, pmid, category = line.strip.split(/\t/)
+            if gz.lineno > 1
+              go_id.gsub!(/GO:0+/, "")
+              file.write("#{go_id}\t#{go_term}\t#{category}\n") if added_go[go_id].nil?
+              added_go[go_id] = 1
+              gfile.write("#{gene_go_id}\t#{gene_id}\t#{go_id}\n")
+              gene_go_id += 1
+            end
+          end
+        end
+      end
+      load_data(gofile)
+      load_data(genegofile)
     end
   end
 
