@@ -35,6 +35,13 @@
 
 <%= pagination() %>
 
+<h2>Gene Ontology</h2>
+<ul>
+<% @review.reviewed_gos.limit(10).each do |go| %>
+  <li><%= go.go.term %> (<%= go.go.category%>) [<%= go.genes_count %>]</li>
+<% end %>
+</ul>
+
 <% else %>
 <h2>Please reload or come back to this page a little bit later.</h2>
 <ul>

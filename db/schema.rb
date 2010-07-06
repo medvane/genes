@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100702221916) do
+ActiveRecord::Schema.define(:version => 20100706221444) do
 
   create_table "article_subjects", :force => true do |t|
     t.integer "article_id"
@@ -103,6 +103,14 @@ ActiveRecord::Schema.define(:version => 20100702221916) do
   add_index "reviewed_genes", ["review_id", "gene_id", "articles_count"], :name => "index_reviewed_genes_on_review_id_and_gene_id_and_articles_count"
   add_index "reviewed_genes", ["review_id", "specificity", "articles_count"], :name => "index_reviewed_genes_on_review_specificity_articles_count"
   add_index "reviewed_genes", ["review_id", "taxonomy_id", "chromosome", "articles_count"], :name => "index_reviewed_genes_on_review_taxonomy_chromosome"
+
+  create_table "reviewed_gos", :force => true do |t|
+    t.integer "review_id"
+    t.integer "go_id"
+    t.integer "genes_count", :default => 0
+  end
+
+  add_index "reviewed_gos", ["review_id", "genes_count"], :name => "index_reviewed_gos_on_review_id_and_genes_count"
 
   create_table "reviews", :force => true do |t|
     t.string   "search_term"

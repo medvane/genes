@@ -32,6 +32,21 @@ class CreateReview < Struct.new(:review_id)
       rg.save!
     end
 
+    gg = []
+    gene_ids = pgg.keys
+    while (gene_ids.size > 0)
+      ids = gene_ids.shift(1000)
+      gg_step = GeneGo.where(:gene_id => ids)
+      gg = gg.concat(gg_step)
+    end
+    ggg = gg.group_by(&:go_id)
+    ggg.sort {|a, b| ggg[b[0]].size <=> ggg[a[0]].size}.each do |g|
+      rg = review.reviewed_gos.new
+      rg.go_id = g[0]
+      rg.genes_count = g[1].size
+      rg.save!
+    end
+
     review.articles_count = pg.map {|p| p.article_id}.uniq.count
     review.genes_count = pgg.keys.size
     review.built = true
