@@ -23,19 +23,9 @@
 
 <% if @gene.gos.size > 0 %>
 <div id="gos">
-  <h2>GeneOntologies</h2>
-  <table>
-    <tr>
-      <th>Term</th>
-      <th>Category</th>
-    </tr>
-    <% @gene.gos.each do |go| %>
-    <tr>
-      <td><%= go.term %></td>
-      <td><%= go.category %></td>
-    </tr>
-    <% end %>
-  </table>
+  <h2>Gene Ontology</h2>
+  <%= gene_ontologies(@gene) %>
+
 </div>
 <% end %>
 

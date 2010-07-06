@@ -16,6 +16,7 @@ ul#navigation {
 }
 
 #navigation li {
+  margin: 0;
   padding: 0 0.5em;
   list-style: none;
   display: inline-block;
@@ -85,6 +86,12 @@ tr:hover {
   background-color: #ddd;
 }
 
+td:hover {
+  background-color: #eee;
+}
+li {
+  margin: 0.75em 0;
+}
 .help {
   color: #666;
 }
@@ -185,7 +192,7 @@ div#species_tab {
 .CONC {}
 .DEVI {}
 .DISO {background-color: #600}
-.GENE {}
+.GENE {background-color: #066}
 .GEOG {}
 .LIVB {background-color: #606}
 .OBJC {}
@@ -193,4 +200,9 @@ div#species_tab {
 .ORGA {}
 .PHEN {}
 .PHYS {background-color: #060}
-.PROC {}
+.PROC {background-color: #660}
+
+#gos td {
+  vertical-align: top;
+  width: 33%;
+}

@@ -11,4 +11,27 @@ module GenesHelper
     ul = content_tag(:ul, li.join("\n").html_safe)
     content_tag(:div, ul.html_safe, :id => "species_tab")
   end
+
+  def gene_ontologies(gene)
+    go = gene.gos.group_by(&:category)
+    tr = []
+    td = []
+    th = []
+    category = {"Component" => "Cellular component", "Process" => "Biological process", "Function" => "Molecular function"}
+    display = 4
+    go.keys.sort.each do |c|
+      th.push(content_tag(:th, category[c]))
+      li = []
+      gos = go[c].uniq.sort_by(&:term)
+      gos.each_index do |i|
+        hide_style = i > display ? "display: none" : ""
+        li.push(content_tag(:li, gos[i].term, :style => hide_style))
+      end
+      toggle_link = gos.size > display ? "[show #{gos.size - display} more]" : ""
+      td.push(content_tag(:td, content_tag(:ul, li.join("\n").html_safe) + toggle_link))
+    end
+    tr.push(content_tag(:tr, th.join("\n").html_safe))
+    tr.push(content_tag(:tr, td.join("\n").html_safe))
+    table = content_tag(:table, tr.join("\n").html_safe)
+  end
 end
