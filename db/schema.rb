@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(:version => 20100706221444) do
   create_table "reviewed_gos", :force => true do |t|
     t.integer "review_id"
     t.integer "go_id"
-    t.integer "genes_count", :default => 0
+    t.integer "articles_count", :default => 0
   end
 
-  add_index "reviewed_gos", ["review_id", "genes_count"], :name => "index_reviewed_gos_on_review_id_and_genes_count"
+  add_index "reviewed_gos", ["review_id", "articles_count"], :name => "index_reviewed_gos_on_review_id_and_articles_count"
 
   create_table "reviews", :force => true do |t|
     t.string   "search_term"

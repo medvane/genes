@@ -1,6 +1,6 @@
 class Review < ActiveRecord::Base
   has_many :reviewed_genes, :dependent => :delete_all
-  has_many :reviewed_gos, :dependent => :delete_all, :order => "genes_count desc", :include => :go
+  has_many :reviewed_gos, :dependent => :delete_all, :order => "articles_count desc", :include => :go
   
   validates_presence_of :search_term, :title
 

@@ -12,20 +12,22 @@ module GenesHelper
     content_tag(:div, ul.html_safe, :id => "species_tab")
   end
 
-  def gene_ontologies(gene)
-    go = gene.gos.group_by(&:category)
+  def gene_ontologies(object, display = 5)
+    go = object.class == Gene ? object.gos.group_by(&:category) : object.reviewed_gos.group_by {|g| g.go.category}
     tr = []
     td = []
     th = []
     category = {"Component" => "Cellular component", "Process" => "Biological process", "Function" => "Molecular function"}
-    display = 4
+    display -= 1
     go.keys.sort.each do |c|
       th.push(content_tag(:th, category[c]))
       li = []
-      gos = go[c].uniq.sort_by(&:term)
+      gos = object.class == Gene ? go[c].uniq.sort_by(&:term) : go[c].uniq.sort_by(&:articles_count).reverse
       gos.each_index do |i|
         hide_style = i > display ? "display: none" : ""
-        li.push(content_tag(:li, gos[i].term, :style => hide_style))
+        term = object.class == Gene ? gos[i].term : gos[i].go.term + " [#{gos[i].articles_count}]"
+        link = object.class == Gene ? gos[i].golink : gos[i].go.golink
+        li.push(content_tag(:li, link_to(term, link, :target => "_blank"), :style => hide_style)) unless i > display
       end
       toggle_link = gos.size > display ? "[show #{gos.size - display} more]" : ""
       td.push(content_tag(:td, content_tag(:ul, li.join("\n").html_safe) + toggle_link))
