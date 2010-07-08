@@ -23,7 +23,7 @@ module GenesHelper
       th.push(content_tag(:th, category[c]))
       li = []
       gos = object.class == Gene ? go[c].uniq.sort_by(&:term) : go[c].uniq.sort_by(&:articles_count).reverse
-      gos.each_index do |i|
+      gos.shift(display).each_index do |i|
         hide_style = i > display ? "display: none" : ""
         term = object.class == Gene ? gos[i].term : gos[i].go.term + " [#{gos[i].articles_count}]"
         link = object.class == Gene ? gos[i].golink : gos[i].go.golink
