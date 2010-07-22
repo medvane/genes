@@ -224,7 +224,7 @@ namespace :rtreview do
       File.open(articlesfile, "w") do |afile|
         File.open(tmpfile, "w") do |file|
           while (pmids.count > 0)
-            ids = pmids.shift(1000)
+            ids = pmids.shift(10000)
             progress("downloading articles from PubMed #{pmids.count} left")
             webenv = Rtreview::Eutils.epost(ids)
             medline = Rtreview::Eutils.efetch(webenv, 0, 100000, "medline")
@@ -270,6 +270,7 @@ namespace :rtreview do
       File.open(gofile, "w") do |file|
         File.open(genegofile, "w") do |gfile|
           added_go = {}
+          added_genego = {}
           gene_go_id = 1
           gz.each_line do |line|
             taxonomy_id, gene_id, go_id, evidence, qualifier, go_term, pmid, category = line.strip.split(/\t/)
@@ -277,7 +278,8 @@ namespace :rtreview do
               go_id.gsub!(/GO:0+/, "")
               file.write("#{go_id}\t#{go_term}\t#{category}\n") if added_go[go_id].nil?
               added_go[go_id] = 1
-              gfile.write("#{gene_go_id}\t#{gene_id}\t#{go_id}\n")
+              gfile.write("#{gene_go_id}\t#{gene_id}\t#{go_id}\n") if added_genego["#{gene_id},#{go_id}"].nil?
+              added_genego["#{gene_id},#{go_id}"] = 1
               gene_go_id += 1
             end
           end
