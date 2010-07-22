@@ -206,3 +206,7 @@ div#species_tab {
   vertical-align: top;
   width: 33%;
 }
+
+#reviewed_genes table {
+  width: 100%;
+}

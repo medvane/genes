@@ -5,6 +5,7 @@
   <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %></li>
 </ul>
 
+<div id="reviewed_genes">
 <%= pagination() %>
 
 <%= species_tab(@review)%>
@@ -23,7 +24,7 @@
   <tr>
     <td class="number"><%= number_with_delimiter(@reviewed_genes.index(rg) + @offset + 1) %></td>
     <td><%= link_to(rg.gene.to_s, gene_path(rg.gene), :class => "gene", :title => rg.gene.name) %></td>
-    <td><%= rg.gene.chromosome %></td>
+    <td class="number"><%= rg.gene.chromosome %></td>
     <td class="nowrap"><%= rg.gene.map_location %></td>
     <td class="nowrap number <%= sort_column?("articles") %>"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %></td>
     <td class="number"><%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %></td>
@@ -34,6 +35,7 @@
 </table>
 
 <%= pagination() %>
+</div>
 
 <div id="gos">
 <h2>Gene Ontology</h2>
