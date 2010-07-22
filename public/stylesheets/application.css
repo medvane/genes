@@ -202,11 +202,18 @@ div#species_tab {
 .PHYS {background-color: #060}
 .PROC {background-color: #660}
 
+#gos table {
+  width: 100%;
+}
 #gos td {
   vertical-align: top;
   width: 33%;
 }
 
 #reviewed_genes table {
+  width: 100%;
+}
+
+#genes table {
   width: 100%;
 }
