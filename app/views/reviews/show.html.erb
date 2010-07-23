@@ -7,6 +7,10 @@
       <span class="item">Genes</span>
     </li>
     <li>
+      <span class="value"><%= number_with_delimiter(@review.reviewed_genes.count("DISTINCT(taxonomy_id)")) %></span>
+      <span class="item">Species</span>
+    </li>
+    <li>
       <span class="value"><%= number_with_delimiter(@review.articles_count) %></span>
       <span class="item">Articles</span>
     </li>
