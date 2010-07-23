@@ -18,18 +18,17 @@ module GenesHelper
     td = []
     th = []
     category = {"Component" => "Cellular component", "Process" => "Biological process", "Function" => "Molecular function"}
-    display -= 1
     go.keys.sort.each do |c|
       th.push(content_tag(:th, category[c]))
       li = []
-      gos = object.class == Gene ? go[c].uniq.sort_by(&:term) : go[c].uniq.sort_by(&:articles_count).reverse
-      gos.shift(display).each_index do |i|
-        hide_style = i > display ? "display: none" : ""
-        term = object.class == Gene ? gos[i].term : gos[i].go.term + " [#{gos[i].articles_count}]"
-        link = object.class == Gene ? gos[i].golink : gos[i].go.golink
-        li.push(content_tag(:li, link_to(term, link, :target => "_blank"), :style => hide_style)) unless i > display
+      gos = object.class == Gene ? go[c].uniq.sort_by(&:term) : go[c].uniq.sort_by(&:articles_count).reverse.shift(display)
+      gos.each_index do |i|
+        hide_style = i >= display ? "display: none" : nil
+        term = object.class == Gene ? gos[i].try(:term) : gos[i].go.term + " [#{gos[i].articles_count}]"
+        link = object.class == Gene ? gos[i].try(:golink) : gos[i].go.golink
+        li.push(content_tag(:li, link_to(term, link, :target => "_blank"), :style => hide_style)) unless i >= display
       end
-      toggle_link = gos.size > display ? "[show #{gos.size - display} more]" : ""
+      toggle_link = gos.size > 0 ? "[show #{number_with_delimiter(gos.size)} more]" : ""
       td.push(content_tag(:td, content_tag(:ul, li.join("\n").html_safe) + toggle_link))
     end
     tr.push(content_tag(:tr, th.join("\n").html_safe))
