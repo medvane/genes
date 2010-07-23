@@ -5,7 +5,7 @@ class Review < ActiveRecord::Base
   validates_presence_of :search_term, :title
 
   scope :built, where(:built => true).order("id desc")
-  scope :popular, built.order("hits desc")
+  scope :popular, where(:built => true).order("hits desc")
   scope :inprocess, where(:built => false)
 
   def hit!
