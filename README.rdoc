@@ -1,4 +1,4 @@
-= Real-Time Review on Genes
+= Medvane Genes: Real-Time Review on Genes
 
 == Set Up
 
@@ -7,11 +7,19 @@
  $ bundle install --without production
  $ cp config/database.yml.mysql config/database.yml
  $ rake genes:setup
- 
-== Update Base Data
-
- $ rake genes:update:all
 
 == Run the Background Worker
 
  $ rake jobs:work
+
+== Update Base Data
+
+ $ rake genes:update:all
+
+== Bug Report & Feature Request
+
+http://github.com/seouri/genes/issues
+
+== License
+
+Medvane Genes is released under MIT license. 
