@@ -28,7 +28,7 @@ module GenesHelper
         link = object.class == Gene ? gos[i].golink : gos[i].go.golink
         li.push(content_tag(:li, link_to(term, link, :target => "_blank"), :style => hide_style)) unless i >= display
       end
-      toggle_link = gos.size > 0 ? link_to("show #{number_with_delimiter(gos.size)} more", "", :class => "button") : ""
+      toggle_link = gos.size > display ? link_to("show #{number_with_delimiter(gos.size)} more", "", :class => "button") : ""
       td.push(content_tag(:td, content_tag(:ul, li.join("\n").html_safe) + toggle_link))
     end
     tr.push(content_tag(:tr, th.join("\n").html_safe))
