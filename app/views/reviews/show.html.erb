@@ -3,7 +3,7 @@
 <div class="dashboard">
   <ul>
     <li>
-      <span class="value"><%= @review.genes_count %></span>
+      <span class="value"><%= number_with_delimiter(@review.genes_count) %></span>
       <span class="item">Genes</span>
     </li>
     <li>
