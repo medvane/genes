@@ -1,4 +1,4 @@
-Rtreview::Application.routes.draw do |map|
+Genes::Application.routes.draw do |map|
   resources :reviews
   resources :genes
   resources :subjects

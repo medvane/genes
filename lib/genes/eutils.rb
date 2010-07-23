@@ -2,9 +2,9 @@ require 'cgi'
 require 'net/http'
 require 'uri'
 
-module Rtreview::Eutils
+module Genes::Eutils
   EUTILS_URL  = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-  TOOL_NAME   = "rtreview.medvane.org"
+  TOOL_NAME   = "genes.medvane.org"
   TOOL_EMAIL  = "eutils@medvane.org"
 
   def esearch(query)

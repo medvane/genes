@@ -1,14 +1,14 @@
 class CreateReview < Struct.new(:review_id)
   def perform
     review = Review.find(review_id)
-    webenv, count = Rtreview::Eutils.esearch(review.search_term)
+    webenv, count = Genes::Eutils.esearch(review.search_term)
     review.search_results_count = count
     review.save!
     
-    pmid = Rtreview::Eutils.efetch(webenv)
+    pmid = Genes::Eutils.efetch(webenv)
     unless pmid.size == review.search_results_count
-      webenv, count = Rtreview::Eutils.esearch(review.search_term)
-      pmid = Rtreview::Eutils.efetch(webenv)
+      webenv, count = Genes::Eutils.esearch(review.search_term)
+      pmid = Genes::Eutils.efetch(webenv)
       review.search_results_count = count
     end
     pg = []

@@ -1,25 +1,25 @@
 require 'zlib'
 require 'open-uri'
 require 'medline'
-namespace :rtreview do
+namespace :genes do
   desc "Create database, load the schema, and initialize with data"
   task :setup => :environment do
     Rake::Task["db:create"].invoke
     Rake::Task["db:schema:load"].invoke
-    Rake::Task["rtreview:update:all"].invoke
+    Rake::Task["genes:update:all"].invoke
   end
 
   desc "recreate database, load the schema, and initialize with data"
   task :reset => :environment do
     Rake::Task["db:drop"].invoke
-    Rake::Task["rtreview:setup"].invoke
+    Rake::Task["genes:setup"].invoke
   end
 
   namespace :update do
     desc "update PublishedGene, Gene, Taxonomy, Homologene, Subject, ArticleSubject, GeneSubject"
     task :all => :environment do
       ['published_gene', 'gene', 'taxonomy', 'homologene', 'subject', 'article_subject', 'gene_subject', 'go'].each do |task|
-        Rake::Task["rtreview:update:#{task}"].invoke
+        Rake::Task["genes:update:#{task}"].invoke
       end
     end
 
@@ -226,8 +226,8 @@ namespace :rtreview do
           while (pmids.count > 0)
             ids = pmids.shift(10000)
             progress("downloading articles from PubMed #{pmids.count} left")
-            webenv = Rtreview::Eutils.epost(ids)
-            medline = Rtreview::Eutils.efetch(webenv, 0, 100000, "medline")
+            webenv = Genes::Eutils.epost(ids)
+            medline = Genes::Eutils.efetch(webenv, 0, 100000, "medline")
             medline.each do |m|
               m.major_descriptors.map {|t| subject[t]}.each do |subject_id|
                 id += 1
