@@ -1,9 +1,29 @@
 <h1><%= @review.title %></h1>
 <% if @review.built? %>
-<ul>
-  <li>PubMed Search: <%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %> (<%= pluralize(number_with_delimiter(@review.search_results_count), "result") %> on <%= @review.created_at.to_date %>)</li>
-  <li><%= pluralize(number_with_delimiter(@review.genes_count), "gene") %> in <%= pluralize(number_with_delimiter(@review.articles_count), "article") %></li>
-</ul>
+<div class="dashboard">
+  <ul>
+    <li>
+      <span class="value"><%= @review.genes_count %></span>
+      <span class="item">Genes</span>
+    </li>
+    <li>
+      <span class="value"><%= number_with_delimiter(@review.articles_count) %></span>
+      <span class="item">Articles</span>
+    </li>
+    <li>
+      <span class="value"><%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %></span>
+      <span class="item">PubMed Search</span>
+    </li>
+    <li>
+      <span class="value"><%= @review.created_at.to_date %></span>
+      <span class="item">Created</span>
+    </li>
+    <li>
+      <span class="value"><%= number_with_delimiter(@review.hits) %></span>
+      <span class="item">Hits</span>
+    </li>
+  </ul>
+</div>
 
 <div id="reviewed_genes">
 <%= pagination() %>

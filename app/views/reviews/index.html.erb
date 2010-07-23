@@ -1,5 +1,21 @@
 <h1>Real-Time Review on Genes</h1>
 <%= render 'form' %>
+<div class="dashboard">
+  <ul>
+    <li>
+      <span class="value"><%= number_with_delimiter(Article.count) %></span>
+      <span class="item">Articles</span>
+    </li>
+    <li>
+      <span class="value"><%= link_to(number_with_delimiter(Gene.count), genes_path) %></span>
+      <span class="item">Genes</span>
+    </li>
+    <li>
+      <span class="value"><%= number_with_delimiter(Taxonomy.count) %></span>
+      <span class="item">Species</span>
+    </li>
+  </ul>
+</div>
 </div>
 <div class="yui-g">
   <div class="yui-u first">

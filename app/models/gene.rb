@@ -11,4 +11,16 @@ class Gene < ActiveRecord::Base
   def to_s
     "#{symbol} (#{taxonomy.scientific_name})"
   end
+
+  def species
+    taxonomy.scientific_name
+  end
+
+  def entrez_link
+    "http://www.ncbi.nlm.nih.gov/gene/#{id}"
+  end
+
+  def pubmed_link
+"http://www.ncbi.nlm.nih.gov/pubmed?DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&IdsFromResult=#{id}"
+  end
 end

@@ -70,17 +70,17 @@ ul#navigation {
 }
 
 .new_review {
-  margin-bottom: 1em;
-  padding: 0.5em;
-  border: 1px solid #666;
+  margin: 1em 1em 1em 0;
+  padding: 0.5em 1em;
+  border: 0px solid #666;
   background-color: #ddd;
   display: inline-block;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-box-shadow: #333 3px 3px 6px ;
-  -moz-box-shadow: #333 6px 6px 6px ;
-  box-shadow: #333 6px 6px 6px ;
+  -webkit-box-shadow: #333 2px 2px 4px ;
+  -moz-box-shadow: #333 2px 2px 4px ;
+  box-shadow: #333 2px 2px 4px;
 }
 
 h1 {
@@ -237,4 +237,38 @@ div#species_tab {
 
 #genes table {
   width: 100%;
+}
+
+.dashboard {
+  display: inline-block;
+  margin: 0;
+}
+.dashboard ul {
+  margin: 0;
+  padding: 0;
+}
+.dashboard li {
+  margin: 1em 1em 1em 0;
+  padding: 0.5em 1em;
+  list-style: none;
+  display: inline-block;
+  background-color: #ddd;
+  text-align: center;
+  -webkit-box-shadow: #333 2px 2px 4px ;
+  -moz-box-shadow: #333 2px 2px 4px ;
+  box-shadow: #333 2px 2px 4px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.dashboard .value {
+  font-size: 150%;
+  display: block;
+  margin-bottom: 0.25em;
+}
+.dashboard a {
+  display: block;
+}
+.dashboard .item {
+  color: #666;
 }

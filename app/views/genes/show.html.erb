@@ -1,10 +1,33 @@
-<h1><%= @gene.to_s %></h1>
-<ul>
-  <li>Name: <%= @gene.name %> (<%= link_to("Entrez Gene record", "http://www.ncbi.nlm.nih.gov/gene/" + @gene.id.to_s, :target => "_blank")%>)</li>
-  <li>Chromosome: <%= @gene.chromosome %></li>
-  <li>Map location: <%= @gene.map_location %></li>
-  <li><%= link_to(pluralize(number_with_delimiter(@gene.articles_count), "article") + " in PubMed", "http://www.ncbi.nlm.nih.gov/sites/entrez?Db=pubmed&DbFrom=gene&Cmd=Link&LinkName=gene_pubmed&LinkReadableName=PubMed&IdsFromResult=#{@gene.id}", :target => "_blank") %></li>
-</ul>
+<h1><%= @gene.name %></h1>
+<div class="dashboard">
+  <ul>
+    <li>
+      <span class="value"><%= @gene.symbol %></span>
+      <span class="item">symbol</span>
+    </li>
+    <li>
+      <span class="value"><%= @gene.species %></span>
+      <span class="item">Species</span>
+    </li>    
+    <li>
+      <span class="value"><%= @gene.chromosome %></span>
+      <span class="item">Chromosome</span>
+    </li>
+    <li>
+      <span class="value"><%= @gene.map_location %></span>
+      <span class="item">Map Location</span>
+    </li>
+    <li>
+      <span class="value"><%= link_to(@gene.id, @gene.entrez_link, :target => "_blank") %></span>
+      <span class="item">Entrez GeneID</span>
+    </li>
+    <li>
+      <span class="value"><%= link_to(number_with_delimiter(@gene.articles_count), @gene.pubmed_link, :target => "_blank") %></span>
+      <span class="item">Articles</span>
+    </li>
+  </ul>
+</div>
+
 <div id="subjects">
   <h2>Top Subjects</h2>
   <table>
