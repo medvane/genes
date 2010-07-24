@@ -19,7 +19,7 @@
 == Support
 
 * Bug Report & Feature Request: http://github.com/medvane/genes/issues
-* Malining list: medvane@googlegroups.com & http://groups.google.com/group/medvane
+* Mailing list: medvane@googlegroups.com & http://groups.google.com/group/medvane
 
 == License
 
