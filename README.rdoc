@@ -2,7 +2,7 @@
 
 == Set Up
 
- $ git clone git://github.com/seouri/genes.git
+ $ git clone git://github.com/medvane/genes.git
  $ cd genes
  $ bundle install --without production
  $ cp config/database.yml.mysql config/database.yml
@@ -18,7 +18,7 @@
 
 == Bug Report & Feature Request
 
-http://github.com/seouri/genes/issues
+http://github.com/medvane/genes/issues
 
 == License
 
