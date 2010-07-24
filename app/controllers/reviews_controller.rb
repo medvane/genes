@@ -12,6 +12,10 @@ class ReviewsController < ApplicationController
     @reviewed_genes = @reviewed_genes.where(:taxonomy_id => @taxonomy_id) if @taxonomy_id.present?
     @last_item = @review.genes_count
     @review.hit! if @review.built?
+    respond_to do |format|
+      format.html
+      format.txt
+    end
   end
 
   def new

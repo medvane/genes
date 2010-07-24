@@ -26,6 +26,10 @@
       <span class="value"><%= number_with_delimiter(@review.hits) %></span>
       <span class="item">Hits</span>
     </li>
+    <li>
+      <span class="value"><%= link_to("TXT", review_path(@review, :format => :txt))%></span>
+      <span class="item">Download</span>
+    </li>
   </ul>
 </div>
 

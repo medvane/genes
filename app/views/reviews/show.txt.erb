@@ -1,0 +1,5 @@
+<% response.headers['Content-Disposition'] = "attachment; filename=#{@review.created_at.to_date}.txt"%>
+<%= ["GeneID", "Species", "Symbol", "Name", "Chromosome", "MapLocation", "Publications", "PMIDs"].join("\t")%>
+<% @review.reviewed_genes.order("articles_count desc").includes(:gene => :taxonomy).each do |rg| %>
+<%= [rg.gene.id, rg.gene.species, rg.gene.symbol, rg.gene.name, rg.gene.chromosome, rg.gene.map_location, rg.articles_count, rg.article_id_list.join("|")].join("\t")%>
+<% end %>
