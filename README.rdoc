@@ -16,10 +16,11 @@
 
  $ rake genes:update:all
 
-== Bug Report & Feature Request
+== Support
 
-http://github.com/medvane/genes/issues
+ * Bug Report & Feature Request: http://github.com/medvane/genes/issues
+ * Malining list: medvane@googlegroups.com & http://groups.google.com/group/medvane
 
 == License
 
-Medvane Genes is released under MIT license. 
+Medvane Genes is released under MIT license (see included MIT-LICENSE). 
