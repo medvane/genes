@@ -279,6 +279,9 @@ div#species_tab {
 .dashboard a {
   display: block;
 }
+.dashboard a:visited {
+  color: #000;
+}
 .dashboard .item {
   color: #666;
 }
