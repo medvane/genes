@@ -15,7 +15,7 @@
       <span class="item">Articles</span>
     </li>
     <li>
-      <span class="value"><%= link_to(@review.search_term, "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %></span>
+      <span class="value"><%= link_to(number_with_delimiter(@review.search_results_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + u(@review.search_term), :target => "_blank") %></span>
       <span class="item">PubMed Search</span>
     </li>
     <li>
