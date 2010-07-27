@@ -40,12 +40,13 @@
   <h2>Top Subjects</h2>
   <table>
     <tr>
-      <th>Subject</th>
+      <th colspan="2">Subject</th>
       <th>Articles</th>
     </tr>
     <% @gene.gene_subjects.each do |s| %>
     <tr>
-      <td><%= s.subject.term %> <%= semantic_groups(s.subject) %></td>
+      <td><%= s.subject.term %></td>
+      <td><%= semantic_groups(s.subject) %></td>
       <td class="number"><%= number_with_delimiter(s.articles_count) %></td>
     </tr>
     <% end %>
