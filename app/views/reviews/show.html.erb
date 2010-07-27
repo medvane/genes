@@ -44,9 +44,9 @@
     <th>Gene</th>
     <th>Chr</th>
     <th>Map Location</th>
-    <th><%= sort_heading("articles")%></th>
+    <th class="number"><%= sort_heading("articles")%></th>
     <th colspan="2">Articles on Homologs</th>
-    <th><%= sort_heading("specificity")%> <%= help("(number of articles in this review) / (total number of articles in PubMed) x 100")%></th>
+    <th class="number"><%= sort_heading("specificity")%> <%= help("(number of articles in this review) / (total number of articles in PubMed) x 100")%></th>
   </tr>
 <% @reviewed_genes.each do |rg| %>
   <tr>

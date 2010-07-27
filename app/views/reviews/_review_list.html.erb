@@ -2,16 +2,16 @@
 <table class="review_list">
   <tr>
     <th>Title</th>
-    <th>Genes</th>
-    <th>Articles</th>
-    <th>Created on</th>
+    <th class="number">Genes</th>
+    <th class="number">Articles</th>
+    <th class="number">Created on</th>
   </tr>
 <% reviews.each do |review| %>
   <tr>
     <td><%= link_to(review.title, review_path(review)) %></td>
     <td class="number"><%= number_with_delimiter(review.genes_count) %></td>
     <td class="number"><%= number_with_delimiter(review.articles_count) %></td>
-    <td><%= review.created_at.to_date %></td>
+    <td class="number"><%= review.created_at.to_date %></td>
   </tr>
 <% end %>
 </table>
