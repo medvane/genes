@@ -54,7 +54,7 @@
     <td><%= link_to(rg.gene.to_s, gene_path(rg.gene), :class => "gene", :title => rg.gene.name) %></td>
     <td class="number"><%= rg.gene.chromosome %></td>
     <td class="nowrap"><%= rg.gene.map_location %></td>
-    <td class="nowrap number <%= sort_column?("articles") %>"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}[uid]"}.join("+OR+"), :target => "_blank") %></td>
+    <td class="nowrap number <%= sort_column?("articles") %>"><%= link_to(number_with_delimiter(rg.articles_count), "http://www.ncbi.nlm.nih.gov/pubmed/?term=" + rg.article_id_list.map {|pmid| "#{pmid}"}.join(","), :target => "_blank") %></td>
     <td class="number"><%= ReviewedGene.homologs(@review, rg.gene).sum(:articles_count) %></td>
     <td><%= ReviewedGene.homologs(@review, rg.gene).map {|r| link_to(r.gene.to_s + ": #{r.articles_count}", gene_path(r.gene), :class => "gene", :title => r.gene.name)}.join(", ").html_safe %></td>
     <td class="number <%= sort_column?("specificity") %>"><%= sprintf("%d", rg.specificity) %>%</td>
