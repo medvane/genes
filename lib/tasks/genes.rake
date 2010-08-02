@@ -290,6 +290,19 @@ namespace :genes do
     end
   end
 
+  namespace :review do
+    desc "recreate seed reviews"
+    task :reset => :environment do
+      ["reviews", "reviewed_genes", "reviewed_gos"].each do |table_name|
+        quoted_table_name = quote_table_name(table_name)
+        progress("truncate #{table_name}")
+        execute("ALTER TABLE #{quoted_table_name} ENGINE = MyISAM")
+        execute("TRUNCATE TABLE #{quoted_table_name}")
+      end
+      Rake::Task["db:seed"].invoke
+    end
+  end
+
   def download_gz(url)
     Zlib::GzipReader.new(open(url))
   end
