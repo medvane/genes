@@ -5,6 +5,7 @@ Genes::Application.routes.draw do |map|
 
   root :to => "reviews#index"
   match '/code', :to => redirect("http://github.com/medvane/genes")
+  match '/bugs', :to => redirect("http://github.com/medvane/genes/issues")
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
