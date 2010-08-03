@@ -7,10 +7,10 @@ module Genes::Eutils
   TOOL_NAME   = "genes.medvane.org"
   TOOL_EMAIL  = "eutils@medvane.org"
 
-  def esearch(query)
+  def esearch(query, db = "pubmed")
     server = EUTILS_URL + "esearch.fcgi"
     params = {
-      "db"          => "pubmed",
+      "db"          => db,
       "term"        => query,
       "tool"        => TOOL_NAME,
       "email"       => TOOL_EMAIL,
@@ -25,10 +25,10 @@ module Genes::Eutils
   end
   module_function :esearch
 
-  def efetch(webenv, retstart = 0, retmax = 1000000, rettype = "uilist")
+  def efetch(webenv, retstart = 0, retmax = 1000000, rettype = "uilist", db = "pubmed")
     server = EUTILS_URL + "efetch.fcgi"
     params = {
-      "db"          => "pubmed",
+      "db"          => db,
       "tool"        => TOOL_NAME,
       "email"       => TOOL_EMAIL,
       "WebEnv"      => webenv,
