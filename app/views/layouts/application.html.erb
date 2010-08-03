@@ -35,6 +35,10 @@
     <li><%= link_to_unless_current("Genes", genes_path)%></li>
     <li><%= link_to_unless_current("About", about_path)%></li>
   </ul>
+  <div id="share">
+    <a href="http://twitter.com/?status=<%= u("Medvane Genes #{request.url}") %>" target="_blank"><img src="http://twitter-badges.s3.amazonaws.com/t_small-b.png" alt="Follow seouri on Twitter"/></a>
+    <iframe src="http://www.facebook.com/plugins/like.php?href=<%= u(request.url) %>&amp;layout=button_count&amp;show_faces=false&amp;width=60&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=16" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:60px; height:20px; display:inline; margin: 0 0 2px 0; padding:0" allowTransparency="true"></iframe>
+  </div><!-- #share -->
 </div><!-- #hd -->
 <div id="bd" role="main">
 	<div class="yui-g">
