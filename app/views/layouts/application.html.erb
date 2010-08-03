@@ -31,8 +31,9 @@
 <div id="hd" role="banner">
   <ul id="navigation">
     <li><%= link_to(image_tag("medvane.genes-176x24.gif"), root_path) %></li>
-    <li><%= link_to("Home", root_path)%></li>
-    <li><%= link_to("Genes", genes_path)%></li>
+    <li><%= link_to_unless_current("Home", root_path)%></li>
+    <li><%= link_to_unless_current("Genes", genes_path)%></li>
+    <li><%= link_to_unless_current("About", about_path)%></li>
   </ul>
 </div><!-- #hd -->
 <div id="bd" role="main">

@@ -1,4 +1,6 @@
 Genes::Application.routes.draw do |map|
+  match '/about', :to => "pages#about"
+
   resources :reviews
   resources :genes
   resources :subjects
