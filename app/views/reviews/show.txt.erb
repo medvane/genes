@@ -1,5 +1,5 @@
 <% response.headers['Content-Disposition'] = "attachment; filename=#{@review.title.gsub(/[^A-Za-z\d]+/, "_").gsub(/_+/, "_").gsub(/_$/, "").downcase + "-" + @review.created_at.to_date.to_s}.txt"%>
 <%= ["GeneID", "Species", "Symbol", "Name", "Chromosome", "MapLocation", "Publications", "PMIDs"].join("\t")%>
 <% @review.reviewed_genes.order("articles_count desc").includes(:gene => :taxonomy).each do |rg| %>
-<%= [rg.gene.id, rg.gene.species, rg.gene.symbol, rg.gene.name, rg.gene.chromosome, rg.gene.map_location, rg.articles_count, rg.article_id_list.join("|")].join("\t")%>
+<%= [rg.gene.id, rg.gene.species, rg.gene.symbol, rg.gene.name, rg.gene.chromosome, rg.gene.map_location, rg.articles_count, rg.article_id_list.join(",")].join("\t")%>
 <% end %>
