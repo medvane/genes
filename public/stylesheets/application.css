@@ -99,6 +99,10 @@ h1 {
   margin: 0.45em 0 0.2em 0;
 }
 
+h2 {
+  font-size: 197%;
+}
+
 th {
   background-color: #ccc;
   white-space: nowrap;
