@@ -69,7 +69,7 @@ namespace :genes do
       progress("reading gene2refseq")
       gz.each_line do |line|
         tax_id, gene_id, status, rna_accession, rna_gi, protein_accession, protein_gi, genomic_accession, genomic_gi, start_position, end_position, orientation, assembly = line.strip.split(/\t/)
-        if count[gene_id] and !position[gene_id]
+        if count[gene_id] and genomic_accession.match(/^NC_/).present? #!position[gene_id]
           position[gene_id] = "#{start_position}\t#{end_position}"
         end
       end
