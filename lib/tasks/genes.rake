@@ -233,7 +233,8 @@ namespace :genes do
                 id += 1
                 file.write("#{id}\t#{m.pmid}\t#{subject_id}\n")
               end
-              afile.write("#{m.pmid}\t#{m.ti}\t#{m.source}\t#{m.pubdate}\n")
+              afile.write("#{m.pmid}\t\t\t#{m.pubdate}\n")
+              #afile.write("#{m.pmid}\t#{m.ti}\t#{m.source}\t#{m.pubdate}\n")
             end
           end
         end
