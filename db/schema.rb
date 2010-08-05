@@ -70,8 +70,10 @@ ActiveRecord::Schema.define(:version => 20100706221444) do
 
   create_table "gos", :force => true do |t|
     t.string "term"
-    t.string "category"
+    t.string "category", :limit => 9
   end
+
+  add_index "gos", ["category"], :name => "index_gos_on_category"
 
   create_table "homologenes", :force => true do |t|
     t.integer "gene_id"
