@@ -49,6 +49,29 @@ namespace :genes do
       progress("updated Taxonomy")
     end
 
+    desc "update Human Chromosome"
+    task :chromosome => :environment do
+      progress("get chromosome length")
+      gis = Genes::Eutils.esearchgis('"primary reference"[Title] AND "Homo sapiens"[Organism] AND RefSeq[Filter]')
+      chrfile = tempfile("chromosomes.dat")
+      chr = []
+      gis.sort.each do |gi|
+        xml = Genes::Eutils.efetchids(gi)
+        length = xml.scan(/<GBSeq_length>(\d+)<\/GBSeq_length>/m).flatten.first.to_s
+        name = xml.scan(/<GBQualifier_name>chromosome<\/GBQualifier_name>\s+<GBQualifier_value>(.*?)<\/GBQualifier_value>/m).flatten.to_s
+        chr.push([name, length])
+      end
+      File.open(chrfile, "w") do |file|
+        progress("write #{chrfile}")
+        id = 0
+        chr.sort_by {|c| c[0] =~ /^\d+$/ ? [1, c[0].to_i] : [2, c[0]] }.each do |c|
+          id += 1
+          file.write("#{id}\t9606\t#{c[0]}\t#{c[1]}\n")
+        end
+      end
+      load_data(chrfile)
+    end
+
     desc "update Gene"
     task :gene => :environment do
       tmpfile = tempfile("genes.dat")

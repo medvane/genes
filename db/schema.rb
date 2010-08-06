@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100706221444) do
+ActiveRecord::Schema.define(:version => 20100805185959) do
 
   create_table "article_subjects", :force => true do |t|
     t.integer "article_id"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(:version => 20100706221444) do
     t.string "source"
     t.date   "pubdate"
   end
+
+  create_table "chromosomes", :force => true do |t|
+    t.integer "taxonomy_id"
+    t.string  "name"
+    t.integer "length"
+  end
+
+  add_index "chromosomes", ["taxonomy_id", "name"], :name => "index_chromosomes_on_taxonomy_id_and_name"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0

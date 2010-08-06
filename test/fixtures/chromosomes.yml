@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  taxonomy_id: 1
+  name: MyString
+  length: 1
+
+two:
+  taxonomy_id: 1
+  name: MyString
+  length: 1

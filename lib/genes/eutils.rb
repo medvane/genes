@@ -52,6 +52,39 @@ module Genes::Eutils
   end
   module_function :efetch
 
+  def esearchgis(query, db = "nuccore", retmax = 24)
+    server = EUTILS_URL + "esearch.fcgi"
+    params = {
+      "db"          => db,
+      "term"        => query,
+      "tool"        => TOOL_NAME,
+      "email"       => TOOL_EMAIL,
+      "retmax"      => retmax,
+    }
+    response = Net::HTTP.post_form(URI.parse(server), params)
+    result = response.body
+    gis = result.scan(/<Id>(\d+)<\/Id>/).flatten
+    return gis
+  end
+  module_function :esearchgis
+
+  def efetchids(ids, db = "nuccore", retstart = 0, retmax = 10000, rettype = "gb", retmode = "xml")
+    server = EUTILS_URL + "efetch.fcgi"
+    params = {
+       "id"          => ids,
+       "db"          => db,
+       "tool"        => TOOL_NAME,
+       "email"       => TOOL_EMAIL,
+       "retmax"      => retmax,
+       "rettype"     => rettype,
+       "retmode"     => retmode,
+       "retstart"    => retstart,
+     }
+     response = Net::HTTP.post_form(URI.parse(server), params)
+     return response.body
+  end
+  module_function :efetchids
+
   def epost(ids)
     server = EUTILS_URL + "epost.fcgi"
     params = {
