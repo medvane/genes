@@ -341,8 +341,8 @@ namespace :genes do
     file_size = File.size(file)
     if file_size > 0
       progress("loading #{file_size} byte data into #{table_name}")
-      execute("ALTER TABLE #{quoted_table_name} ENGINE = MyISAM")
       execute("TRUNCATE TABLE #{quoted_table_name}")
+      execute("ALTER TABLE #{quoted_table_name} ENGINE = MyISAM")
       execute("ALTER TABLE #{quoted_table_name} DISABLE KEYS")
       execute("LOAD DATA LOCAL INFILE '#{file}' INTO TABLE #{quoted_table_name}")
       progress("adding index to #{quoted_table_name}")
