@@ -7,9 +7,6 @@ gem 'rails', '3.0.3'
 
 gem 'mysql'
 gem 'bio'
-group :production do
-  gem 'pg'
-end
 
 gem 'delayed_job', '2.1.0.pre'
 
