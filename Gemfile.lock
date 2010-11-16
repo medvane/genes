@@ -32,7 +32,8 @@ GEM
     bio (1.4.0)
     builder (2.1.2)
     daemons (1.1.0)
-    delayed_job (2.1.0.pre)
+    delayed_job (2.1.1)
+      activesupport (~> 3.0)
       daemons
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -74,6 +75,6 @@ PLATFORMS
 
 DEPENDENCIES
   bio
-  delayed_job (= 2.1.0.pre)
+  delayed_job (= 2.1.1)
   mysql
   rails (= 3.0.3)
